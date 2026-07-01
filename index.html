@@ -25,7 +25,7 @@
           <!-- Brand identity -->
           <header class="brand-lockup">
             <img
-              src="assets/logo.png"
+              src="assets/hero-visual.svg"
               alt="LexReason logo"
               class="brand-logo"
               width="68"
@@ -45,6 +45,10 @@
               Manage your cases, research, clients and hearings from one intelligent
               workspace.
             </p>
+          </div>
+
+          <div class="hero-illustration" aria-hidden="true">
+            <img src="assets/hero-visual.svg" alt="" />
           </div>
 
           <!-- Product feature highlights -->
@@ -116,7 +120,7 @@
         <!-- Login card -->
         <article class="login-card fade-in">
           <div class="login-card__crest" aria-hidden="true">
-            <img src="assets/logo.png" alt="" width="56" height="56" />
+            <img src="assets/hero-visual.svg" alt="" width="56" height="56" />
           </div>
           <header class="login-header">
             <h2>Welcome Back</h2>
@@ -213,11 +217,11 @@
 
             <!-- Social sign-in actions -->
             <div class="social-stack">
-              <button class="social-button" type="button">
+              <button class="social-button" id="googleAuthButton" type="button">
                 <span class="social-icon google" aria-hidden="true">G</span>
                 <span>Continue with Google</span>
               </button>
-              <button class="social-button" type="button">
+              <button class="social-button" id="phoneAuthButton" type="button">
                 <span class="social-icon phone" aria-hidden="true">
                   <svg viewBox="0 0 24 24" focusable="false">
                     <path
@@ -227,6 +231,54 @@
                 </span>
                 <span>Continue with Phone No</span>
               </button>
+            </div>
+
+            <div id="phoneAuthPanel" class="phone-auth-panel" hidden>
+              <div class="field-group">
+                <label for="phoneNumber">Phone Number</label>
+                <div class="input-shell">
+                  <span class="input-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" focusable="false">
+                      <path d="M6.5 4h3l1 4-2 2a14 14 0 0 0 5.5 5.5l2-2 4 1v3a2 2 0 0 1-2.2 2A17.8 17.8 0 0 1 4 6.2 2 2 0 0 1 6.5 4z" />
+                    </svg>
+                  </span>
+                  <input
+                    id="phoneNumber"
+                    name="phoneNumber"
+                    type="tel"
+                    inputmode="tel"
+                    placeholder="+91 9876543210"
+                    aria-describedby="phoneError"
+                  />
+                </div>
+                <p id="phoneError" class="error-message" aria-live="polite"></p>
+              </div>
+
+              <div class="field-group">
+                <label for="otpCode">OTP Code</label>
+                <div class="input-shell">
+                  <span class="input-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" focusable="false">
+                      <path d="M7 10V7a5 5 0 0 1 10 0v3m-11 0h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1zm6 4v3" />
+                    </svg>
+                  </span>
+                  <input
+                    id="otpCode"
+                    name="otpCode"
+                    type="text"
+                    inputmode="numeric"
+                    placeholder="Enter OTP"
+                    aria-describedby="otpError"
+                  />
+                </div>
+                <p id="otpError" class="error-message" aria-live="polite"></p>
+              </div>
+
+              <div class="phone-auth-actions">
+                <button id="sendOtpButton" class="social-button phone-action" type="button">Send OTP</button>
+                <button id="verifyOtpButton" class="social-button phone-action" type="button">Verify OTP</button>
+              </div>
+              <div id="recaptcha-container"></div>
             </div>
           </form>
 
@@ -242,6 +294,8 @@
       </section>
     </main>
 
+    <script src="firebase-config.js"></script>
+    <script type="module" src="auth.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

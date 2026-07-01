@@ -121,6 +121,23 @@ function setupLoginForm() {
     }
 
     setLoadingState(loginButton, true);
+
+    const firebaseBridge = window.lexreasonFirebase;
+    if (firebaseBridge?.enabled) {
+      firebaseBridge
+        .signInWithEmailPassword()
+        .then((result) => {
+          persistRememberedEmail(email.trim(), rememberMe);
+          saveActiveUser(result.user.email || email.trim());
+          window.location.href = "dashboard.html";
+        })
+        .catch((error) => {
+          setLoadingState(loginButton, false);
+          setError("formError", error.message || "Unable to sign in with Firebase.");
+        });
+      return;
+    }
+
     setTimeout(() => {
       persistRememberedEmail(email.trim(), rememberMe);
       saveActiveUser(email.trim());

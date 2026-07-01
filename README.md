@@ -17,6 +17,8 @@ This project delivers a complete login experience for LexReason Chamber using on
 - Remember Me persistence using `localStorage`
 - Mock login success flow with loading state
 - Dashboard page with logout action
+- Firebase-ready email and password sign-in
+- Firebase-ready phone number sign-in with OTP and reCAPTCHA container
 - Smooth fade-in, hover interactions, and polished button states
 - GitHub Actions workflow for validation and deployment
 - GitHub Pages deployment using official non-deprecated actions
@@ -29,6 +31,8 @@ chamber-page/
 ├── dashboard.html
 ├── style.css
 ├── script.js
+├── auth.js
+├── firebase-config.js
 ├── README.md
 ├── .htmlhintrc
 ├── .stylelintrc.json
@@ -61,6 +65,20 @@ Double-click `index.html` and it will open in your browser.
 2. Install the **Live Server** extension if needed.
 3. Right-click `index.html`.
 4. Click **Open with Live Server**.
+
+## Firebase Authentication Setup
+
+To enable real Firebase authentication for email and phone number:
+
+1. Create a Firebase project and add a web app.
+2. In Firebase Console, open `Authentication`.
+3. Enable:
+   - `Email/Password`
+   - `Phone`
+4. Copy your Firebase web app credentials into `firebase-config.js`.
+5. For phone sign-in, make sure your domain is authorized in Firebase and keep the reCAPTCHA container visible.
+
+If `firebase-config.js` is still empty, the project keeps using the current mock login flow for the main button.
 
 ## GitHub Pages Deployment
 

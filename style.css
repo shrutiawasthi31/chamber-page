@@ -102,6 +102,21 @@ a {
   color: #ffffff;
 }
 
+.hero-illustration {
+  margin-top: 24px;
+  max-width: 360px;
+  align-self: flex-end;
+  border-radius: 28px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.28);
+}
+
+.hero-illustration img {
+  width: 100%;
+  height: auto;
+}
+
 .brand-lockup {
   display: flex;
   align-items: center;
@@ -112,6 +127,7 @@ a {
   width: 68px;
   height: 68px;
   border-radius: 18px;
+  object-fit: cover;
   box-shadow: 0 18px 36px rgba(0, 0, 0, 0.25);
 }
 
@@ -289,6 +305,13 @@ a {
   background: linear-gradient(180deg, rgba(200, 162, 74, 0.18), rgba(200, 162, 74, 0.06));
 }
 
+.login-card__crest img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
 .login-header {
   text-align: center;
   margin-bottom: 28px;
@@ -424,22 +447,22 @@ a {
   padding: 0 24px;
   border: 0;
   border-radius: 18px;
-  background: linear-gradient(135deg, #111111 0%, #232323 100%);
-  color: #ffffff;
+  background: linear-gradient(135deg, #c8a24a 0%, #b88f36 100%);
+  color: #111111;
   font-size: 1.18rem;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 20px 38px rgba(17, 17, 17, 0.22);
+  box-shadow: 0 20px 38px rgba(200, 162, 74, 0.28);
 }
 
 .primary-button:hover,
 .primary-button:focus-visible {
   transform: translateY(-2px);
-  box-shadow: 0 24px 42px rgba(17, 17, 17, 0.28);
+  box-shadow: 0 24px 42px rgba(200, 162, 74, 0.35);
 }
 
 .primary-button .button-icon {
-  color: var(--accent);
+  color: #111111;
 }
 
 .button-spinner {
@@ -447,7 +470,7 @@ a {
   width: 18px;
   height: 18px;
   border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: #ffffff;
+  border-top-color: #111111;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -482,6 +505,30 @@ a {
 .social-stack {
   display: grid;
   gap: 14px;
+}
+
+.phone-auth-panel {
+  display: grid;
+  gap: 18px;
+  padding: 18px;
+  border: 1px solid var(--border-soft);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.phone-auth-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.phone-action {
+  min-height: 54px;
+}
+
+#recaptcha-container {
+  display: flex;
+  justify-content: center;
 }
 
 .social-button {
