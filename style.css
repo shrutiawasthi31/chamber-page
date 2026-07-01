@@ -78,8 +78,8 @@ a {
   border-radius: 32px;
   min-height: 860px;
   background:
-    radial-gradient(circle at top left, rgba(200, 162, 74, 0.24), transparent 26%),
-    linear-gradient(135deg, #131313 0%, #1d1d1d 35%, #2b2418 100%);
+    linear-gradient(180deg, rgba(8, 8, 8, 0.18), rgba(8, 8, 8, 0.76)),
+    url("assets/hero-visual.svg") center center / cover no-repeat;
   box-shadow: var(--shadow-soft);
 }
 
@@ -87,8 +87,8 @@ a {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 82% 22%, rgba(200, 162, 74, 0.18), transparent 20%),
-    linear-gradient(120deg, rgba(255, 255, 255, 0.03), transparent 42%);
+    linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.52)),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0.14) 60%, rgba(0, 0, 0, 0.28));
 }
 
 .hero-content {
@@ -102,51 +102,15 @@ a {
   color: #ffffff;
 }
 
-.hero-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.82fr);
-  gap: 28px;
-  align-items: end;
-  margin-top: auto;
-}
-
 .hero-story {
-  width: 100%;
+  width: min(560px, 100%);
+  margin-top: auto;
   padding: 34px 30px 30px;
   border-radius: 30px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+  background: linear-gradient(180deg, rgba(8, 8, 8, 0.24), rgba(8, 8, 8, 0.6));
   border: 1px solid rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(14px);
   box-shadow: 0 24px 54px rgba(0, 0, 0, 0.22);
-}
-
-.hero-visual-card {
-  position: relative;
-  padding: 22px;
-  border-radius: 32px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.03));
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  box-shadow: 0 24px 54px rgba(0, 0, 0, 0.22);
-}
-
-.hero-visual-badge {
-  display: inline-flex;
-  margin-bottom: 18px;
-  padding: 10px 14px;
-  border-radius: 999px;
-  background: rgba(200, 162, 74, 0.15);
-  color: var(--accent);
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.hero-visual-image {
-  width: 100%;
-  border-radius: 22px;
-  background: rgba(255, 255, 255, 0.96);
-  object-fit: cover;
 }
 
 .brand-lockup {
@@ -718,10 +682,6 @@ a {
     min-height: 720px;
   }
 
-  .hero-layout {
-    grid-template-columns: 1fr;
-  }
-
   .login-panel {
     max-width: 780px;
     width: 100%;
@@ -753,11 +713,6 @@ a {
 
   .hero-story {
     padding: 24px 20px 22px;
-    border-radius: 24px;
-  }
-
-  .hero-visual-card {
-    padding: 18px;
     border-radius: 24px;
   }
 
