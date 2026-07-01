@@ -78,7 +78,7 @@ a {
   border-radius: 32px;
   min-height: 860px;
   background:
-    url("assets/image2.svg") center center / cover no-repeat;
+    url("assets/chamber-hero-v2.svg") center center / cover no-repeat;
   box-shadow: var(--shadow-soft);
 }
 
