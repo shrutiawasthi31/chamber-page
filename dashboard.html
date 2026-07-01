@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LexReason Chamber Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="dashboard-body">
+    <main class="dashboard-shell fade-in">
+      <!-- Post-login dashboard welcome card -->
+      <section class="dashboard-card">
+        <img
+          src="assets/logo.png"
+          alt="LexReason logo"
+          class="dashboard-logo"
+          width="72"
+          height="72"
+        />
+        <p class="eyebrow">LexReason Chamber</p>
+        <h1>Welcome to LexReason Chamber</h1>
+        <p class="dashboard-copy">
+          Your legal workspace is ready. Continue managing cases, research, hearings,
+          and clients from one secure platform.
+        </p>
+        <div class="dashboard-actions">
+          <a class="dashboard-link" href="index.html">Back to Login</a>
+          <button id="logoutButton" class="primary-button dashboard-button" type="button">
+            <span class="button-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M10 7H6a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h4m4-10 5 5-5 5m5-5H9" />
+              </svg>
+            </span>
+            <span class="button-text">Logout</span>
+            <span class="button-spinner" aria-hidden="true"></span>
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
