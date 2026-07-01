@@ -36,7 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const provider = new GoogleAuthProvider();
   const googleAuthButton = document.getElementById("googleAuthButton");
   const phoneAuthButton = document.getElementById("phoneAuthButton");
-  const phoneAuthPanel = document.getElementById("phoneAuthPanel");
   const sendOtpButton = document.getElementById("sendOtpButton");
   const verifyOtpButton = document.getElementById("verifyOtpButton");
   const emailInput = document.getElementById("email");
@@ -58,10 +57,6 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
       setMessage("formError", error.message || "Google sign-in failed.");
     }
-  });
-
-  phoneAuthButton?.addEventListener("click", () => {
-    phoneAuthPanel.hidden = !phoneAuthPanel.hidden;
   });
 
   sendOtpButton?.addEventListener("click", async () => {

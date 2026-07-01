@@ -32,7 +32,7 @@ body {
   /* Global page background */
   margin: 0;
   min-height: 100vh;
-  font-family: "Inter", sans-serif;
+  font-family: Inter, sans-serif;
   color: var(--text-primary);
   background:
     radial-gradient(circle at top left, rgba(255, 255, 255, 0.72), transparent 28%),
@@ -78,17 +78,14 @@ a {
   border-radius: 32px;
   min-height: 860px;
   background:
-    linear-gradient(180deg, rgba(8, 8, 8, 0.18), rgba(8, 8, 8, 0.76)),
-    url("assets/hero-visual.svg") center center / cover no-repeat;
+    url("assets/chamber-background.jpg") center center / cover no-repeat;
   box-shadow: var(--shadow-soft);
 }
 
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.52)),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0.14) 60%, rgba(0, 0, 0, 0.28));
+  background: rgba(0, 0, 0, 0.35);
 }
 
 .hero-content {
@@ -98,55 +95,46 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 42px 44px 46px;
+  padding: 48px;
   color: #ffffff;
 }
 
 .hero-story {
-  width: min(560px, 100%);
+  width: min(286px, 100%);
   margin-top: auto;
-  padding: 34px 30px 30px;
-  border-radius: 30px;
-  background: linear-gradient(180deg, rgba(8, 8, 8, 0.24), rgba(8, 8, 8, 0.6));
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(14px);
-  box-shadow: 0 24px 54px rgba(0, 0, 0, 0.22);
+  margin-bottom: 2px;
+  padding: 0;
 }
 
 .brand-lockup {
   display: flex;
-  align-items: flex-end;
-  gap: 14px;
+  align-items: flex-start;
+  gap: 10px;
   flex-wrap: wrap;
+  max-width: 286px;
 }
 
 .brand-logo {
-  width: min(220px, 52vw);
+  width: min(198px, 44vw);
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 16px 28px rgba(0, 0, 0, 0.22));
 }
 
-.brand-tag {
-  margin: 0 0 6px;
-  font-size: 0.98rem;
-  color: rgba(255, 255, 255, 0.8);
-}
-
 .hero-copy {
-  max-width: 620px;
+  max-width: 286px;
 }
 
 .eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  margin: 0 0 18px;
+  margin: 0 0 10px;
   color: var(--accent);
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  font-size: 0.8rem;
+  font-size: 11px;
 }
 
 .hero-copy h1,
@@ -157,64 +145,51 @@ a {
 }
 
 .hero-copy h1 {
-  font-size: clamp(3.25rem, 6vw, 5.75rem);
-  max-width: 580px;
-  line-height: 0.98;
+  font-size: clamp(2rem, 3.3vw, 36px);
+  max-width: 286px;
+  line-height: 1.06;
   text-wrap: balance;
 }
 
 .hero-description {
-  margin: 22px 0 0;
-  max-width: 520px;
-  font-size: 1.35rem;
-  line-height: 1.7;
+  margin: 10px 0 0;
+  max-width: 286px;
+  font-size: 13px;
+  line-height: 1.5;
   color: rgba(255, 255, 255, 0.88);
 }
 
 .feature-list {
   list-style: none;
-  margin: 30px 0 0;
+  margin: 14px 0 0;
   padding: 0;
   display: grid;
-  gap: 16px;
-  max-width: 520px;
+  gap: 10px;
+  max-width: 286px;
 }
 
 .feature-item {
   display: flex;
-  gap: 16px;
-  align-items: flex-start;
-  padding: 14px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.feature-item:first-child {
-  padding-top: 0;
-  border-top: 0;
-}
-
-.feature-item h2 {
-  margin: 0 0 6px;
-  font-size: 1.18rem;
+  gap: 10px;
+  align-items: center;
+  padding: 0;
 }
 
 .feature-item p {
   margin: 0;
-  color: rgba(255, 255, 255, 0.76);
-  line-height: 1.5;
-  font-size: 0.98rem;
+  color: rgba(255, 255, 255, 0.92);
+  line-height: 1.4;
+  font-size: 13px;
+  font-weight: 500;
 }
 
 .feature-icon {
-  width: 56px;
-  height: 56px;
-  flex: 0 0 56px;
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
   display: grid;
   place-items: center;
-  border-radius: 18px;
-  background: rgba(200, 162, 74, 0.16);
-  border: 1px solid rgba(200, 162, 74, 0.22);
-  backdrop-filter: blur(10px);
+  color: var(--accent);
 }
 
 .feature-icon svg,
@@ -222,8 +197,8 @@ a {
 .password-toggle svg,
 .button-icon svg,
 .social-icon svg {
-  width: 24px;
-  height: 24px;
+  width: 18px;
+  height: 18px;
   fill: none;
   stroke: currentColor;
   stroke-linecap: round;
@@ -238,6 +213,7 @@ a {
   justify-content: center;
   gap: 26px;
   min-width: 0;
+  align-items: center;
 }
 
 .top-links {
@@ -283,7 +259,8 @@ a {
 }
 
 .login-card {
-  padding: 34px 46px 36px;
+  width: min(100%, 420px);
+  padding: 34px 40px 36px;
 }
 
 .login-card:hover,
@@ -328,6 +305,25 @@ a {
 .login-form {
   display: grid;
   gap: 22px;
+}
+
+.auth-switcher {
+  display: grid;
+  gap: 14px;
+}
+
+.login-view {
+  display: none;
+  gap: 22px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 300ms ease, transform 300ms ease;
+}
+
+.login-view--active {
+  display: grid;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .field-group {
@@ -505,12 +501,9 @@ a {
 }
 
 .phone-auth-panel {
-  display: grid;
   gap: 18px;
-  padding: 18px;
-  border: 1px solid var(--border-soft);
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.7);
+  padding: 2px 0 0;
+  background: transparent;
 }
 
 .phone-auth-actions {
@@ -521,6 +514,16 @@ a {
 
 .phone-action {
   min-height: 54px;
+}
+
+.back-link {
+  justify-self: start;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: var(--accent-deep);
+  font-weight: 600;
+  cursor: pointer;
 }
 
 #recaptcha-container {
@@ -683,7 +686,7 @@ a {
   }
 
   .login-panel {
-    max-width: 780px;
+    max-width: 420px;
     width: 100%;
     margin: 0 auto;
   }
@@ -706,22 +709,24 @@ a {
   }
 
   .hero-content,
-  .login-card,
   .dashboard-card {
     padding: 28px 22px;
   }
 
+  .login-card {
+    padding: 28px 24px;
+  }
+
   .hero-story {
-    padding: 24px 20px 22px;
-    border-radius: 24px;
+    width: min(320px, 100%);
   }
 
   .hero-copy h1 {
-    font-size: 3.35rem;
+    font-size: 36px;
   }
 
   .hero-description {
-    font-size: 1.05rem;
+    font-size: 15px;
   }
 
   .top-links {
@@ -740,10 +745,18 @@ a {
     font-size: 2.55rem;
   }
 
+  .phone-auth-actions {
+    grid-template-columns: 1fr;
+  }
+
   .input-shell,
   .primary-button,
   .social-button {
     min-height: 58px;
+  }
+
+  .hero-content {
+    padding: 24px;
   }
 
   .form-meta,
