@@ -81,10 +81,6 @@ function saveActiveUser(email) {
 function setupLoginForm() {
   const form = document.getElementById("loginForm");
   const loginButton = document.getElementById("loginButton");
-  const emailLoginView = document.getElementById("emailLoginView");
-  const phoneLoginView = document.getElementById("phoneLoginView");
-  const phoneAuthButton = document.getElementById("phoneAuthButton");
-  const backToEmailButton = document.getElementById("backToEmailButton");
 
   if (!form || !loginButton) {
     return;
@@ -92,29 +88,6 @@ function setupLoginForm() {
 
   preloadRememberedEmail();
   setupPasswordToggle();
-
-  function showLoginView(viewToShow, viewToHide) {
-    if (!viewToShow || !viewToHide) {
-      return;
-    }
-
-    viewToHide.classList.remove("login-view--active");
-    setTimeout(() => {
-      viewToHide.hidden = true;
-      viewToShow.hidden = false;
-      requestAnimationFrame(() => {
-        viewToShow.classList.add("login-view--active");
-      });
-    }, 220);
-  }
-
-  phoneAuthButton?.addEventListener("click", () => {
-    showLoginView(phoneLoginView, emailLoginView);
-  });
-
-  backToEmailButton?.addEventListener("click", () => {
-    showLoginView(emailLoginView, phoneLoginView);
-  });
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
