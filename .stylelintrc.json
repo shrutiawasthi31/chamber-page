@@ -4,6 +4,13 @@
     "selector-class-pattern": null,
     "alpha-value-notation": "number",
     "color-function-notation": "legacy",
-    "declaration-empty-line-before": null
+    "declaration-empty-line-before": null,
+    "color-function-alias-notation": null,
+    "color-hex-length": null,
+    "font-family-name-quotes": null,
+    "value-keyword-case": null,
+    "no-descending-specificity": null,
+    "keyframes-name-pattern": null,
+    "media-feature-range-notation": null
   }
 }
