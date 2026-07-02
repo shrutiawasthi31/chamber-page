@@ -83,33 +83,35 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 34px 34px 68px 36px;
+  padding: 30px 34px 54px;
   color: #ffffff;
 }
 
 .hero-logo {
-  width: 186px;
+  width: 188px;
   height: auto;
 }
 
 .hero-copy {
-  max-width: 720px;
+  max-width: 728px;
+  margin-left: 72px;
 }
 
 .hero-eyebrow {
-  margin: 0 0 10px;
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 0.88rem;
+  margin: 0 0 8px;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 0.78rem;
   font-weight: 500;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.34em;
 }
 
 .hero-copy h1 {
-  margin: 0 0 20px;
-  max-width: 560px;
+  margin: 0 0 18px;
+  max-width: 530px;
   color: #ffffff;
-  font-size: clamp(2.05rem, 3vw, 2.3rem);
-  line-height: 1.15;
+  font-size: clamp(2rem, 2.5vw, 2.15rem);
+  font-weight: 700;
+  line-height: 1.18;
   letter-spacing: -0.04em;
 }
 
@@ -121,10 +123,16 @@ a {
 
 .hero-points li {
   position: relative;
-  padding: 14px 0 14px 36px;
+  padding: 11px 0 11px 36px;
   color: rgba(255, 255, 255, 0.92);
-  font-size: 0.98rem;
+  font-size: 0.97rem;
+  line-height: 1.35;
   border-bottom: 1px dashed rgba(255, 255, 255, 0.18);
+}
+
+.hero-points li span {
+  display: inline-block;
+  max-width: 675px;
 }
 
 .hero-points li::before {
@@ -157,11 +165,11 @@ a {
 }
 
 .hero-tags span {
-  padding: 10px 16px;
+  padding: 8px 14px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.2);
   color: #ffffff;
-  font-size: 0.92rem;
+  font-size: 0.88rem;
 }
 
 .login-panel {
@@ -418,6 +426,7 @@ a {
   background: #fff;
   display: grid;
   place-items: center;
+  overflow: hidden;
   cursor: pointer;
   transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
 }
@@ -436,9 +445,19 @@ a {
 }
 
 .social-glyph svg {
+  width: 30px;
+  height: 30px;
+  display: block;
+}
+
+.social-glyph--facebook svg {
   width: 28px;
   height: 28px;
-  display: block;
+}
+
+.social-glyph--linkedin svg {
+  width: 27px;
+  height: 27px;
 }
 
 .login-footer {
@@ -561,6 +580,10 @@ a {
   .hero-content {
     padding-bottom: 42px;
   }
+
+  .hero-copy {
+    margin-left: 42px;
+  }
 }
 
 @media (max-width: 720px) {
@@ -574,6 +597,10 @@ a {
 
   .hero-logo {
     width: 168px;
+  }
+
+  .hero-copy {
+    margin-left: 0;
   }
 
   .hero-copy h1 {
