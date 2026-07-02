@@ -56,11 +56,11 @@ a {
 }
 
 .page-shell {
-  width: min(1920px, 100vw);
+  width: 100%;
   min-height: 100vh;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(840px, 930px) minmax(820px, 990px);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
 
 .hero-panel {
@@ -106,12 +106,12 @@ a {
 }
 
 .hero-copy h1 {
-  margin: 0 0 18px;
-  max-width: 530px;
+  margin: 0 0 16px;
+  max-width: 500px;
   color: #ffffff;
-  font-size: clamp(2rem, 2.5vw, 2.15rem);
+  font-size: clamp(1.82rem, 2.15vw, 1.96rem);
   font-weight: 700;
-  line-height: 1.18;
+  line-height: 1.16;
   letter-spacing: -0.04em;
 }
 
@@ -123,10 +123,10 @@ a {
 
 .hero-points li {
   position: relative;
-  padding: 11px 0 11px 36px;
-  color: rgba(255, 255, 255, 0.92);
-  font-size: 0.97rem;
-  line-height: 1.35;
+  padding: 10px 0 10px 36px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.91rem;
+  line-height: 1.32;
   border-bottom: 1px dashed rgba(255, 255, 255, 0.18);
 }
 
@@ -165,17 +165,17 @@ a {
 }
 
 .hero-tags span {
-  padding: 8px 14px;
+  padding: 7px 13px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.2);
   color: #ffffff;
-  font-size: 0.88rem;
+  font-size: 0.82rem;
 }
 
 .login-panel {
   display: grid;
   place-items: center;
-  padding: 40px;
+  padding: 40px 56px;
   background: var(--bg-panel);
 }
 
