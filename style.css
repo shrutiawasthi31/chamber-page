@@ -173,15 +173,15 @@ a {
 }
 
 .login-panel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 48px 40px 12px;
+  display: grid;
+  place-items: center;
+  padding: 40px;
   background: var(--bg-panel);
 }
 
 .login-card {
   width: min(100%, 426px);
+  margin: 0 auto;
   padding: 48px 41px 30px;
   background: var(--bg-card);
   border-radius: var(--radius-card);
