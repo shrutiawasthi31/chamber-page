@@ -173,9 +173,10 @@ a {
 }
 
 .login-panel {
-  display: grid;
-  place-items: center;
-  padding: 40px 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 48px 40px 12px;
   background: var(--bg-panel);
 }
 
