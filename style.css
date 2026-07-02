@@ -57,10 +57,11 @@ a {
 
 .page-shell {
   width: 100%;
+  max-width: 1440px;
   min-height: 100vh;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
 }
 
 .hero-panel {
@@ -83,7 +84,7 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 30px 34px 54px;
+  padding: 30px 34px 42px;
   color: #ffffff;
 }
 
@@ -93,8 +94,8 @@ a {
 }
 
 .hero-copy {
-  max-width: 728px;
-  margin-left: 72px;
+  max-width: 640px;
+  margin-left: 0;
 }
 
 .hero-eyebrow {
@@ -173,30 +174,31 @@ a {
 }
 
 .login-panel {
-  display: grid;
-  place-items: center;
-  padding: 40px 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 34px;
   background: var(--bg-panel);
 }
 
 .login-card {
-  width: min(100%, 426px);
-  margin: 0 auto;
-  padding: 48px 41px 30px;
+  width: min(100%, 398px);
+  margin: 0;
+  padding: 40px 34px 26px;
   background: var(--bg-card);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
 }
 
 .login-header {
-  margin-bottom: 30px;
+  margin-bottom: 24px;
 }
 
 .login-header h2 {
   margin: 0;
-  font-size: clamp(2.1rem, 3vw, 2.22rem);
-  line-height: 1.1;
-  letter-spacing: -0.04em;
+  font-size: clamp(1.48rem, 2vw, 1.68rem);
+  line-height: 1.15;
+  letter-spacing: -0.025em;
   font-weight: 800;
 }
 
@@ -206,33 +208,34 @@ a {
 }
 
 .login-header p {
-  margin: 12px 0 0;
+  margin: 8px 0 0;
   color: var(--text-secondary);
-  font-size: 0.97rem;
+  font-size: 0.82rem;
+  line-height: 1.45;
 }
 
 .login-form,
 .login-view {
   display: grid;
-  gap: 18px;
+  gap: 14px;
 }
 
 .field-group {
   display: grid;
-  gap: 10px;
+  gap: 7px;
 }
 
 .field-group label {
-  font-size: 0.95rem;
+  font-size: 0.82rem;
   font-weight: 500;
 }
 
 .input-shell {
   display: flex;
   align-items: center;
-  gap: 12px;
-  min-height: 45px;
-  padding: 0 13px;
+  gap: 10px;
+  min-height: 41px;
+  padding: 0 12px;
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-field);
   background: #fff;
@@ -276,7 +279,13 @@ a {
   outline: none;
   background: transparent;
   color: #5f5b55;
-  font-size: 0.96rem;
+  font-size: 0.84rem;
+}
+
+.remember-me,
+.meta-link,
+.login-footer p {
+  font-size: 0.82rem;
 }
 
 .input-shell input::placeholder {
