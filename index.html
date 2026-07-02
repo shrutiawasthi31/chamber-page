@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="LexReason Chamber login for AI-powered legal intelligence, case management, research, hearings, and client collaboration."
+      content="LexReason login for AI-powered legal intelligence, case memory, research, and counsel collaboration."
     />
-    <title>LexReason Chamber Login</title>
+    <title>LexReason Login</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -18,45 +18,21 @@
   </head>
   <body class="login-body">
     <main class="page-shell">
-      <!-- Left promotional chamber panel -->
-      <section class="hero-panel" aria-label="LexReason Chamber overview">
+      <section class="hero-panel" aria-label="LexReason product overview">
         <div class="hero-overlay"></div>
-        <div class="hero-content">
-          <header class="brand-lockup">
-            <img
-              src="assets/lexreason-logo.png"
-              alt="LexReason logo"
-              class="brand-logo"
-              width="220"
-              height="72"
-            />
-          </header>
-        </div>
       </section>
 
-      <!-- Right authentication panel -->
       <section class="login-panel" aria-label="Sign in">
-        <!-- Lightweight top navigation -->
-        <nav class="top-links" aria-label="Secondary navigation">
-          <a href="#support">Help</a>
-          <a href="#contact">Contact Us</a>
-        </nav>
-
-        <!-- Login card -->
         <article class="login-card fade-in">
-          <div class="login-card__crest" aria-hidden="true">
-            <img src="assets/lexreason-logo.png" alt="" width="164" height="52" />
-          </div>
           <header class="login-header">
-            <h2>Welcome Back</h2>
-            <p>Sign in to access your LexReason Chamber</p>
+            <h2>Welcome to <span>LexReason</span></h2>
+            <p>Sign In your account</p>
           </header>
 
-          <!-- Sign-in form -->
           <form id="loginForm" class="login-form" novalidate>
             <div id="emailLoginView" class="login-view login-view--active">
               <div class="field-group">
-                <label for="email">Chamber Email</label>
+                <label for="email">Work Email</label>
                 <div class="input-shell">
                   <span class="input-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" focusable="false">
@@ -69,7 +45,7 @@
                     type="email"
                     inputmode="email"
                     autocomplete="email"
-                    placeholder="Enter your email"
+                    placeholder="deanna.curtis@example.com"
                     aria-describedby="emailError"
                     required
                   />
@@ -92,7 +68,7 @@
                     name="password"
                     type="password"
                     autocomplete="current-password"
-                    placeholder="Enter your password"
+                    placeholder="Password"
                     aria-describedby="passwordError"
                     required
                   />
@@ -113,6 +89,23 @@
                 <p id="passwordError" class="error-message" aria-live="polite"></p>
               </div>
 
+              <div class="field-group">
+                <label for="role">Role</label>
+                <div class="input-shell input-shell--select">
+                  <span class="input-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" focusable="false">
+                      <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm0 2c-4.2 0-7 2.2-7 4v1h14v-1c0-1.8-2.8-4-7-4z" />
+                    </svg>
+                  </span>
+                  <select id="role" name="role" aria-label="Role">
+                    <option>Independent Litigator</option>
+                    <option>Associate</option>
+                    <option>Senior Counsel</option>
+                    <option>Research Analyst</option>
+                  </select>
+                </div>
+              </div>
+
               <div class="form-meta">
                 <label class="remember-me" for="rememberMe">
                   <input id="rememberMe" name="rememberMe" type="checkbox" />
@@ -124,14 +117,7 @@
               <p id="formError" class="error-message form-error" aria-live="polite"></p>
 
               <button id="loginButton" class="primary-button" type="submit">
-                <span class="button-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" focusable="false">
-                    <path
-                      d="M9 7h9a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9m0-10 4 5-4 5M13 12H4"
-                    />
-                  </svg>
-                </span>
-                <span class="button-text">Enter Chamber</span>
+                <span class="button-text">Login</span>
                 <span class="button-spinner" aria-hidden="true"></span>
               </button>
             </div>
@@ -139,14 +125,19 @@
             <div class="auth-switcher">
               <div class="divider" aria-hidden="true">
                 <span></span>
-                <p>OR</p>
+                <p>OR Continue With</p>
                 <span></span>
               </div>
 
-              <div class="social-stack">
-                <button class="social-button" id="googleAuthButton" type="button">
-                  <span class="social-icon google" aria-hidden="true">G</span>
-                  <span>Continue with Google</span>
+              <div class="social-row">
+                <button class="social-button" id="googleAuthButton" type="button" aria-label="Continue with Google">
+                  <span class="social-glyph social-glyph--google">G</span>
+                </button>
+                <button class="social-button" id="facebookAuthButton" type="button" aria-label="Continue with Facebook">
+                  <span class="social-glyph social-glyph--facebook">f</span>
+                </button>
+                <button class="social-button" id="linkedinAuthButton" type="button" aria-label="Continue with LinkedIn">
+                  <span class="social-glyph social-glyph--linkedin">in</span>
                 </button>
               </div>
             </div>
@@ -154,13 +145,11 @@
 
           <footer class="login-footer">
             <p>
-              New to LexReason Chamber?
-              <a href="#create-account">Create Account</a>
+              Don’t have an account?
+              <a href="#create-account">Sign Up.</a>
             </p>
           </footer>
         </article>
-
-        <p class="security-note">Your data is secure and encrypted.</p>
       </section>
     </main>
 
