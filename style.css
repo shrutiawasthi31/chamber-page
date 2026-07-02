@@ -346,7 +346,6 @@ a {
 
 .social-glyph--google {
   background: linear-gradient(180deg, #4285f4 0 25%, #34a853 25% 50%, #fbbc05 50% 75%, #ea4335 75% 100%);
-  -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
