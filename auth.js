@@ -1,5 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import {
+  FacebookAuthProvider,
   getAuth,
   GoogleAuthProvider,
   signInWithEmailAndPassword,
@@ -20,6 +21,18 @@ function saveUserAndRedirect(identifier) {
   window.location.href = "dashboard.html";
 }
 
+function getFriendlyAuthError(error, providerName) {
+  if (error?.code === "auth/operation-not-allowed") {
+    return `${providerName} sign-in is not enabled in Firebase yet.`;
+  }
+
+  if (error?.code === "auth/popup-closed-by-user") {
+    return `${providerName} sign-in was cancelled.`;
+  }
+
+  return error?.message || `${providerName} sign-in failed.`;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   if (window.location.pathname.endsWith("dashboard.html")) return;
 
@@ -31,18 +44,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const app = initializeApp(settings);
   const auth = getAuth(app);
-  const provider = new GoogleAuthProvider();
+  const googleProvider = new GoogleAuthProvider();
+  const facebookProvider = new FacebookAuthProvider();
   const googleAuthButton = document.getElementById("googleAuthButton");
+  const facebookAuthButton = document.getElementById("facebookAuthButton");
+  const linkedinAuthButton = document.getElementById("linkedinAuthButton");
   const emailInput = document.getElementById("email");
   const passwordInput = document.getElementById("password");
 
   googleAuthButton?.addEventListener("click", async () => {
     try {
-      const result = await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, googleProvider);
       saveUserAndRedirect(result.user.email || result.user.phoneNumber || "Google User");
     } catch (error) {
-      setMessage("formError", error.message || "Google sign-in failed.");
+      setMessage("formError", getFriendlyAuthError(error, "Google"));
     }
+  });
+
+  facebookAuthButton?.addEventListener("click", async () => {
+    try {
+      const result = await signInWithPopup(auth, facebookProvider);
+      saveUserAndRedirect(result.user.email || result.user.phoneNumber || "Facebook User");
+    } catch (error) {
+      setMessage("formError", getFriendlyAuthError(error, "Facebook"));
+    }
+  });
+
+  linkedinAuthButton?.addEventListener("click", () => {
+    setMessage(
+      "formError",
+      "LinkedIn sign-in needs additional Firebase Identity Platform or custom OAuth setup before it can work."
+    );
   });
 
   window.lexreasonFirebase = {
