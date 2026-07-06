@@ -35,8 +35,15 @@ function getFacebookLoginUrl() {
     facebookAppId +
     "&redirect_uri=" +
     encodeURIComponent(redirectUri) +
-    "&scope=public_profile"
+    "&scope=public_profile" +
+    "&response_type=token"
   );
+}
+
+function getFacebookAccessTokenFromHash() {
+  const hash = window.location.hash.startsWith("#") ? window.location.hash.slice(1) : "";
+  const params = new URLSearchParams(hash);
+  return params.get("access_token");
 }
 
 function getFriendlyAuthError(error, providerName) {
@@ -52,6 +59,13 @@ function getFriendlyAuthError(error, providerName) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  const facebookAccessToken = getFacebookAccessTokenFromHash();
+  if (facebookAccessToken && !window.location.pathname.endsWith("dashboard.html")) {
+    localStorage.setItem("lexreasonFacebookAccessToken", facebookAccessToken);
+    saveUserAndRedirect("Facebook User");
+    return;
+  }
+
   const settings = window.firebaseSettings?.firebaseConfig;
   if (!hasFirebaseConfig(settings)) {
     window.lexreasonFirebase = { enabled: false };
