@@ -154,8 +154,19 @@ function setupDashboard() {
     return;
   }
 
-  logoutButton.addEventListener("click", () => {
+  logoutButton.addEventListener("click", async () => {
+    setLoadingState(logoutButton, true);
     localStorage.removeItem(storageKeys.activeUser);
+
+    const firebaseBridge = window.lexreasonFirebase;
+    if (firebaseBridge?.enabled && typeof firebaseBridge.signOut === "function") {
+      try {
+        await firebaseBridge.signOut();
+      } catch (error) {
+        console.error("Firebase logout failed", error);
+      }
+    }
+
     window.location.href = "index.html";
   });
 }

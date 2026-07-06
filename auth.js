@@ -2,6 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/fireba
 import {
   getAuth,
   GoogleAuthProvider,
+  signOut,
   signInWithEmailAndPassword,
   signInWithPopup
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
@@ -51,8 +52,6 @@ function getFriendlyAuthError(error, providerName) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  if (window.location.pathname.endsWith("dashboard.html")) return;
-
   const settings = window.firebaseSettings?.firebaseConfig;
   if (!hasFirebaseConfig(settings)) {
     window.lexreasonFirebase = { enabled: false };
@@ -61,12 +60,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const app = initializeApp(settings);
   const auth = getAuth(app);
+  const isDashboard = window.location.pathname.endsWith("dashboard.html");
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
+
+  window.lexreasonFirebase = {
+    enabled: true,
+    signInWithEmailPassword() {
+      return signInWithEmailAndPassword(auth, emailInput?.value.trim() || "", passwordInput?.value.trim() || "");
+    },
+    signOut() {
+      return signOut(auth);
+    }
+  };
+
+  if (isDashboard) {
+    return;
+  }
+
   const googleProvider = new GoogleAuthProvider();
   const googleAuthButton = document.getElementById("googleAuthButton");
   const facebookAuthButton = document.getElementById("facebookAuthButton");
   const linkedinAuthButton = document.getElementById("linkedinAuthButton");
-  const emailInput = document.getElementById("email");
-  const passwordInput = document.getElementById("password");
 
   googleAuthButton?.addEventListener("click", async () => {
     try {
@@ -94,11 +109,4 @@ document.addEventListener("DOMContentLoaded", () => {
       "LinkedIn sign-in needs additional Firebase Identity Platform or custom OAuth setup before it can work."
     );
   });
-
-  window.lexreasonFirebase = {
-    enabled: true,
-    signInWithEmailPassword() {
-      return signInWithEmailAndPassword(auth, emailInput.value.trim(), passwordInput.value.trim());
-    }
-  };
 });
