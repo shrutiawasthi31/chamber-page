@@ -1,4 +1,5 @@
 window.firebaseSettings = {
+  facebookAppId: "995894360086658",
   firebaseConfig: {
     apiKey: "AIzaSyBsp98NSUve1J9CNv9ujgOTF7-FOGY23LU",
     authDomain: "chamber-page-cead3.firebaseapp.com",

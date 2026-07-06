@@ -1,6 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import {
-  FacebookAuthProvider,
   getAuth,
   GoogleAuthProvider,
   signInWithEmailAndPassword,
@@ -19,6 +18,24 @@ function setMessage(id, text) {
 function saveUserAndRedirect(identifier) {
   localStorage.setItem("lexreasonChamberUser", identifier);
   window.location.href = "dashboard.html";
+}
+
+function getFacebookLoginUrl() {
+  const facebookAppId = window.firebaseSettings?.facebookAppId;
+  const redirectUri = `${window.location.origin}${window.location.pathname}`;
+
+  if (!facebookAppId) {
+    return null;
+  }
+
+  return (
+    "https://www.facebook.com/v20.0/dialog/oauth" +
+    "?client_id=" +
+    facebookAppId +
+    "&redirect_uri=" +
+    encodeURIComponent(redirectUri) +
+    "&scope=public_profile"
+  );
 }
 
 function getFriendlyAuthError(error, providerName) {
@@ -45,7 +62,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const app = initializeApp(settings);
   const auth = getAuth(app);
   const googleProvider = new GoogleAuthProvider();
-  const facebookProvider = new FacebookAuthProvider();
   const googleAuthButton = document.getElementById("googleAuthButton");
   const facebookAuthButton = document.getElementById("facebookAuthButton");
   const linkedinAuthButton = document.getElementById("linkedinAuthButton");
@@ -61,13 +77,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  facebookAuthButton?.addEventListener("click", async () => {
-    try {
-      const result = await signInWithPopup(auth, facebookProvider);
-      saveUserAndRedirect(result.user.email || result.user.phoneNumber || "Facebook User");
-    } catch (error) {
-      setMessage("formError", getFriendlyAuthError(error, "Facebook"));
+  facebookAuthButton?.addEventListener("click", () => {
+    const facebookLoginUrl = getFacebookLoginUrl();
+
+    if (!facebookLoginUrl) {
+      setMessage("formError", "Facebook App ID is missing from configuration.");
+      return;
     }
+
+    window.location.href = facebookLoginUrl;
   });
 
   linkedinAuthButton?.addEventListener("click", () => {
