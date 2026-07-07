@@ -1,10 +1,10 @@
 # LexReason Chamber Login
 
-A production-ready static login module for **LexReason Chamber**, designed as a premium legal AI experience with a polished split-screen layout, responsive UI, client-side validation, a mock dashboard flow, and automated CI/CD using GitHub Actions and GitHub Pages.
+A production-ready login module for **LexReason Chamber**, designed as a premium legal AI experience with a polished split-screen layout, responsive UI, client-side validation, Firebase-ready login paths, and a LinkedIn OAuth flow backed by a small Node server.
 
 ## Project Overview
 
-This project delivers a complete login experience for LexReason Chamber using only HTML5, CSS3, and vanilla JavaScript. It is designed to work by opening `index.html` directly in a browser or by running a lightweight local server such as VS Code Live Server.
+This project delivers a complete login experience for LexReason Chamber using HTML5, CSS3, vanilla JavaScript, and a lightweight Node/Express server for LinkedIn sign-in.
 
 ## Features
 
@@ -20,8 +20,8 @@ This project delivers a complete login experience for LexReason Chamber using on
 - Firebase-ready email and password sign-in
 - Firebase-ready phone number sign-in with OTP and reCAPTCHA container
 - Smooth fade-in, hover interactions, and polished button states
-- GitHub Actions workflow for validation and deployment
-- GitHub Pages deployment using official non-deprecated actions
+- GitHub Actions workflow for validation
+- LinkedIn OAuth sign-in using a Node/Express backend
 
 ## Folder Structure
 
@@ -66,6 +66,36 @@ Double-click `index.html` and it will open in your browser.
 3. Right-click `index.html`.
 4. Click **Open with Live Server**.
 
+### Option 3: Run LinkedIn sign-in locally
+
+To use LinkedIn login without Firebase, run the app through the included Node server:
+
+1. Create `.env` from `.env.example`.
+2. Fill in:
+   - `LINKEDIN_CLIENT_ID`
+   - `LINKEDIN_CLIENT_SECRET`
+   - `LINKEDIN_REDIRECT_URI=http://localhost:3000/auth/linkedin/callback`
+   - `SESSION_SECRET` with any long random string
+3. In your LinkedIn developer app, add this authorized redirect URL:
+   - `http://localhost:3000/auth/linkedin/callback`
+4. Install dependencies:
+
+```bash
+npm install
+```
+
+5. Start the local server:
+
+```bash
+npm start
+```
+
+6. Open:
+
+```text
+http://localhost:3000
+```
+
 ## Firebase Authentication Setup
 
 To enable real Firebase authentication for email and phone number:
@@ -80,15 +110,11 @@ To enable real Firebase authentication for email and phone number:
 
 If `firebase-config.js` is still empty, the project keeps using the current mock login flow for the main button.
 
-## GitHub Pages Deployment
+## Live Deployment
 
-After pushing to GitHub, the workflow automatically validates and deploys the project to GitHub Pages.
+Because LinkedIn sign-in now depends on a Node server, this project should be deployed to a runtime host such as Render, Railway, or another Node hosting platform. GitHub Pages cannot run the backend required for LinkedIn OAuth.
 
-Expected live URL format:
-
-```text
-https://shrutiawasthi31.github.io/chamber-page/
-```
+This repository includes [render.yaml](/Users/shrutismac/Documents/Codex/2026-07-02/lexreason-https-www-figma-com-proto/work/chamber-page/render.yaml:1) for easy Render deployment.
 
 ## CI Pipeline Explanation
 
@@ -101,8 +127,7 @@ It performs these steps:
 3. Validates all `.html` files using `htmlhint`
 4. Validates all `.css` files using `stylelint`
 5. Checks JavaScript syntax using `node --check`
-6. If validation succeeds, uploads the project as a Pages artifact
-7. Deploys the site to GitHub Pages
+6. Validates the backend entry file `server.js`
 
 ## Technologies Used
 
@@ -111,7 +136,8 @@ It performs these steps:
 - Vanilla JavaScript
 - GitHub
 - GitHub Actions
-- GitHub Pages
+- Node.js
+- Express
 
 ## Screenshots
 
@@ -122,7 +148,7 @@ Add project screenshots here after deployment:
 
 ## Future Improvements
 
-- Real authentication with a backend
+- Production session store instead of in-memory sessions
 - Password recovery workflow
 - Phone authentication integration
 - Multi-role chamber access
@@ -190,24 +216,25 @@ This sends your local project to GitHub and makes `main` the primary branch.
 
 This proves that the project is tested and deployment-ready.
 
-### 7. Enable GitHub Pages
+### 7. Deploy to Render
 
-1. Open your repository on GitHub.
-2. Go to **Settings**.
-3. Click **Pages** in the left sidebar.
-4. Under **Build and deployment**, choose **GitHub Actions**.
+1. Push this repository to GitHub.
+2. Create a new Render Web Service from the repo.
+3. Render will detect `render.yaml`.
+4. Add environment variables:
+   - `SESSION_SECRET`
+   - `LINKEDIN_CLIENT_ID`
+   - `LINKEDIN_CLIENT_SECRET`
+   - `LINKEDIN_REDIRECT_URI`
+5. Set the production LinkedIn redirect URL in the LinkedIn developer console to:
 
-Because this project already includes a Pages deployment workflow, GitHub Pages should use that workflow directly.
+```text
+https://your-render-service.onrender.com/auth/linkedin/callback
+```
 
 ### 8. Access the deployed website
 
-Once deployment finishes, open:
-
-```text
-https://shrutiawasthi31.github.io/chamber-page/
-```
-
-If it does not appear immediately, wait one or two minutes and refresh.
+Open your Render service URL after deployment finishes.
 
 ## How to Explain This to a Mentor
 

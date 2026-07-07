@@ -77,6 +77,87 @@ function saveActiveUser(email) {
   localStorage.setItem(storageKeys.activeUser, email);
 }
 
+function getActiveUser() {
+  return localStorage.getItem(storageKeys.activeUser);
+}
+
+function clearActiveUser() {
+  localStorage.removeItem(storageKeys.activeUser);
+}
+
+async function hydrateUserFromSession() {
+  try {
+    const response = await fetch("/api/me", {
+      credentials: "same-origin"
+    });
+
+    if (!response.ok) {
+      return;
+    }
+
+    const payload = await response.json();
+    if (payload?.authenticated && payload.user) {
+      saveActiveUser(payload.user.email || payload.user.name || "LinkedIn User");
+    }
+  } catch (error) {
+    console.error("Session lookup failed", error);
+  }
+}
+
+async function enforceDashboardAccess() {
+  const activeUser = getActiveUser();
+
+  if (activeUser) {
+    return true;
+  }
+
+  try {
+    const response = await fetch("/api/me", {
+      credentials: "same-origin"
+    });
+
+    if (!response.ok) {
+      window.location.replace("index.html");
+      return false;
+    }
+
+    const payload = await response.json();
+    if (payload?.authenticated && payload.user) {
+      saveActiveUser(payload.user.email || payload.user.name || "LinkedIn User");
+      return true;
+    }
+  } catch (error) {
+    console.error("Dashboard session check failed", error);
+  }
+
+  window.location.replace("index.html");
+  return false;
+}
+
+async function redirectAuthenticatedLogin() {
+  if (getActiveUser()) {
+    return;
+  }
+
+  try {
+    const response = await fetch("/api/me", {
+      credentials: "same-origin"
+    });
+
+    if (!response.ok) {
+      return;
+    }
+
+    const payload = await response.json();
+    if (payload?.authenticated && payload.user) {
+      saveActiveUser(payload.user.email || payload.user.name || "LinkedIn User");
+      window.location.replace("dashboard.html");
+    }
+  } catch (error) {
+    console.error("Login session check failed", error);
+  }
+}
+
 // Main login form behavior with validation and redirect.
 function setupLoginForm() {
   const form = document.getElementById("loginForm");
@@ -156,7 +237,16 @@ function setupDashboard() {
 
   logoutButton.addEventListener("click", async () => {
     setLoadingState(logoutButton, true);
-    localStorage.removeItem(storageKeys.activeUser);
+    clearActiveUser();
+
+    try {
+      await fetch("/auth/logout", {
+        method: "POST",
+        credentials: "same-origin"
+      });
+    } catch (error) {
+      console.error("Session logout failed", error);
+    }
 
     const firebaseBridge = window.lexreasonFirebase;
     if (firebaseBridge?.enabled && typeof firebaseBridge.signOut === "function") {
@@ -172,10 +262,15 @@ function setupDashboard() {
 }
 
 // Bootstraps the correct page logic after the DOM is ready.
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   if (isDashboardPage()) {
+    const canViewDashboard = await enforceDashboardAccess();
+    if (!canViewDashboard) {
+      return;
+    }
     setupDashboard();
   } else {
+    await redirectAuthenticatedLogin();
     setupLoginForm();
   }
 });

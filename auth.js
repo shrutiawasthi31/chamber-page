@@ -21,6 +21,15 @@ function saveUserAndRedirect(identifier) {
   window.location.href = "dashboard.html";
 }
 
+function setButtonLoading(button, loading) {
+  if (!button) {
+    return;
+  }
+
+  button.classList.toggle("is-loading", loading);
+  button.disabled = loading;
+}
+
 function getFacebookLoginUrl() {
   const facebookAppId = window.firebaseSettings?.facebookAppId;
   const redirectUri = `${window.location.origin}${window.location.pathname}`;
@@ -51,8 +60,16 @@ function getFriendlyAuthError(error, providerName) {
     return `${providerName} sign-in is not enabled in Firebase yet.`;
   }
 
+  if (error?.code === "auth/unauthorized-domain") {
+    return "This domain is not authorized for Firebase authentication yet.";
+  }
+
   if (error?.code === "auth/popup-closed-by-user") {
     return `${providerName} sign-in was cancelled.`;
+  }
+
+  if (error?.code === "auth/invalid-credential" && providerName === "LinkedIn") {
+    return "LinkedIn sign-in is configured incorrectly. Check the LinkedIn provider setup in Firebase Identity Platform.";
   }
 
   return error?.message || `${providerName} sign-in failed.`;
@@ -98,15 +115,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const linkedinAuthButton = document.getElementById("linkedinAuthButton");
 
   googleAuthButton?.addEventListener("click", async () => {
+    setMessage("formError", "");
+    setButtonLoading(googleAuthButton, true);
+
     try {
       const result = await signInWithPopup(auth, googleProvider);
       saveUserAndRedirect(result.user.email || result.user.phoneNumber || "Google User");
     } catch (error) {
       setMessage("formError", getFriendlyAuthError(error, "Google"));
+    } finally {
+      setButtonLoading(googleAuthButton, false);
     }
   });
 
   facebookAuthButton?.addEventListener("click", () => {
+    setMessage("formError", "");
     const facebookLoginUrl = getFacebookLoginUrl();
 
     if (!facebookLoginUrl) {
@@ -117,10 +140,9 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = facebookLoginUrl;
   });
 
-  linkedinAuthButton?.addEventListener("click", () => {
-    setMessage(
-      "formError",
-      "LinkedIn sign-in needs additional Firebase Identity Platform or custom OAuth setup before it can work."
-    );
+  linkedinAuthButton?.addEventListener("click", async () => {
+    setMessage("formError", "");
+    setButtonLoading(linkedinAuthButton, true);
+    window.location.href = "/auth/linkedin";
   });
 });
