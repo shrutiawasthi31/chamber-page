@@ -48,19 +48,6 @@ function getFirebaseAuth() {
   return admin.auth(firebaseApp);
 }
 
-function extractProfilePhoto(profile) {
-  const displayImage = profile?.profilePicture?.["displayImage~"]?.elements;
-  if (Array.isArray(displayImage) && displayImage.length > 0) {
-    const lastElement = displayImage[displayImage.length - 1];
-    const identifiers = lastElement?.identifiers;
-    if (Array.isArray(identifiers) && identifiers.length > 0) {
-      return identifiers[0]?.identifier || "";
-    }
-  }
-
-  return "";
-}
-
 export function generateOauthState() {
   return crypto.randomBytes(24).toString("hex");
 }
@@ -104,13 +91,10 @@ export async function exchangeCodeForAccessToken(code) {
   return response.data.access_token;
 }
 
-export async function fetchLinkedInProfile(accessToken) {
-  const response = await axios.get("https://api.linkedin.com/v2/me", {
+export async function fetchLinkedInUserInfo(accessToken) {
+  const response = await axios.get("https://api.linkedin.com/v2/userinfo", {
     headers: {
       Authorization: `Bearer ${accessToken}`
-    },
-    params: {
-      projection: "(id,localizedFirstName,localizedLastName,profilePicture(displayImage~:playableStreams))"
     },
     timeout: 15000
   });
@@ -118,40 +102,26 @@ export async function fetchLinkedInProfile(accessToken) {
   return response.data;
 }
 
-export async function fetchLinkedInEmail(accessToken) {
-  const response = await axios.get("https://api.linkedin.com/v2/emailAddress", {
-    headers: {
-      Authorization: `Bearer ${accessToken}`
-    },
-    params: {
-      q: "members",
-      projection: "(elements*(handle~))"
-    },
-    timeout: 15000
-  });
-
-  const email = response.data?.elements?.[0]?.["handle~"]?.emailAddress;
+export function normalizeLinkedInUser(userInfo) {
+  const email = userInfo?.email || "";
   if (!email) {
     const error = new Error("LinkedIn did not return an email address.");
     error.statusCode = 502;
     throw error;
   }
 
-  return email;
-}
-
-export function normalizeLinkedInUser(profile, email) {
-  const firstName = profile?.localizedFirstName || "";
-  const lastName = profile?.localizedLastName || "";
-  const name = [firstName, lastName].filter(Boolean).join(" ").trim();
+  const firstName = userInfo?.given_name || "";
+  const lastName = userInfo?.family_name || "";
+  const fallbackName = [firstName, lastName].filter(Boolean).join(" ").trim();
+  const name = userInfo?.name || fallbackName;
 
   return {
-    linkedinId: profile?.id || "",
+    linkedinId: userInfo?.sub || "",
     email,
     firstName,
     lastName,
     name: name || email,
-    picture: extractProfilePhoto(profile),
+    picture: userInfo?.picture || "",
     provider: "linkedin"
   };
 }

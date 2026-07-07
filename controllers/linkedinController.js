@@ -2,8 +2,7 @@ import {
   buildLinkedInAuthorizationUrl,
   createOrGetUser,
   exchangeCodeForAccessToken,
-  fetchLinkedInEmail,
-  fetchLinkedInProfile,
+  fetchLinkedInUserInfo,
   generateOauthState,
   normalizeLinkedInUser
 } from "../services/linkedinService.js";
@@ -82,12 +81,8 @@ export async function handleLinkedInCallback(req, res, next) {
 
   try {
     const accessToken = await exchangeCodeForAccessToken(String(code));
-    const [profile, email] = await Promise.all([
-      fetchLinkedInProfile(accessToken),
-      fetchLinkedInEmail(accessToken)
-    ]);
-
-    const normalizedUser = normalizeLinkedInUser(profile, email);
+    const userInfo = await fetchLinkedInUserInfo(accessToken);
+    const normalizedUser = normalizeLinkedInUser(userInfo);
     const appUser = await createOrGetUser(normalizedUser);
     const token = signAuthToken(appUser);
 
