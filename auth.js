@@ -284,6 +284,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const googleProvider = new GoogleAuthProvider();
+  googleProvider.setCustomParameters({
+    prompt: "select_account"
+  });
   const googleAuthButton = document.getElementById("googleAuthButton");
   const facebookAuthButton = document.getElementById("facebookAuthButton");
   const linkedinAuthButton = document.getElementById("linkedinAuthButton");

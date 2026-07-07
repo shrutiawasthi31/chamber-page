@@ -3,6 +3,7 @@ const storageKeys = {
   rememberedEmail: "lexreasonRememberedEmail",
   activeUser: "lexreasonChamberUser",
   linkedInJwt: "lexreasonLinkedInJwt",
+  facebookAccessToken: "lexreasonFacebookAccessToken",
 };
 
 // Utility helpers for route and field validation.
@@ -85,6 +86,7 @@ function getActiveUser() {
 function clearActiveUser() {
   localStorage.removeItem(storageKeys.activeUser);
   localStorage.removeItem(storageKeys.linkedInJwt);
+  localStorage.removeItem(storageKeys.facebookAccessToken);
 }
 
 function getSessionUserIdentifier(user) {
