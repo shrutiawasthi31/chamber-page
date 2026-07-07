@@ -3,7 +3,7 @@ window.firebaseSettings = {
     linkedinBackendUrl:
       window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
         ? "http://localhost:5000"
-        : "https://chamber-page-2.onrender.com"
+        : "https://chamber-page-1.onrender.com"
   },
   facebookAppId: "995894360086658",
   firebaseConfig: {
