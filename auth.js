@@ -193,7 +193,7 @@ function getFriendlyAuthError(error, providerName) {
   return error?.message || `${providerName} sign-in failed.`;
 }
 
-async function fetchWithTimeout(url, options = {}, timeoutMs = 4500) {
+async function fetchWithTimeout(url, options = {}, timeoutMs = 15000) {
   const controller = new AbortController();
   const timeoutId = window.setTimeout(() => controller.abort(), timeoutMs);
 
@@ -232,9 +232,9 @@ async function beginLinkedInLogin(linkedinAuthButton) {
     setButtonLoading(linkedinAuthButton, false);
 
     if (error.name === "AbortError") {
-      setMessage("formError", "LinkedIn login is taking too long. Please try again.");
-      showToast("Network Timeout", "LinkedIn login timed out before the backend responded.");
-      showLinkedInRetry("The backend did not respond in time. Retry when your connection is stable.");
+      setMessage("formError", "LinkedIn backend is waking up. Please try again in a moment.");
+      showToast("Backend Waking Up", "Render can take a few seconds to respond after idling.");
+      showLinkedInRetry("The backend may still be starting. Retry LinkedIn login in a few seconds.");
       return;
     }
 
