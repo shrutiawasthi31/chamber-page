@@ -362,6 +362,9 @@ a {
 }
 
 .primary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: 45px;
   border: 0;
   border-radius: 8px;
@@ -381,6 +384,24 @@ a {
 .primary-button.is-loading {
   pointer-events: none;
   opacity: 0.9;
+}
+
+.secondary-button {
+  min-height: 42px;
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  background: #fff;
+  color: #3e3a36;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+
+.secondary-button:hover,
+.secondary-button:focus-visible {
+  transform: translateY(-1px);
+  border-color: rgba(205, 167, 74, 0.7);
+  box-shadow: 0 8px 18px rgba(42, 35, 25, 0.08);
 }
 
 .button-spinner {
@@ -448,6 +469,17 @@ a {
   box-shadow: 0 10px 22px rgba(42, 35, 25, 0.08);
 }
 
+.social-button--linkedin {
+  background: #0a66c2;
+  border-color: #0a66c2;
+}
+
+.social-button--linkedin:hover,
+.social-button--linkedin:focus-visible {
+  border-color: #004182;
+  box-shadow: 0 12px 24px rgba(10, 102, 194, 0.24);
+}
+
 .social-glyph {
   line-height: 1;
   display: inline-grid;
@@ -468,6 +500,62 @@ a {
 .social-glyph--linkedin svg {
   width: 27px;
   height: 27px;
+}
+
+.linkedin-assist {
+  display: grid;
+  gap: 10px;
+  margin-top: -4px;
+}
+
+.linkedin-assist[hidden] {
+  display: none;
+}
+
+.linkedin-assist__message {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.toast-region {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 20;
+  display: grid;
+  gap: 10px;
+  width: min(320px, calc(100vw - 32px));
+}
+
+.toast {
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(36, 34, 32, 0.96);
+  color: #fff;
+  box-shadow: 0 18px 34px rgba(35, 30, 23, 0.22);
+  animation: fadeInUp 0.28s ease both;
+}
+
+.toast--success {
+  background: rgba(34, 95, 63, 0.96);
+}
+
+.toast--error {
+  background: rgba(136, 44, 34, 0.96);
+}
+
+.toast__title {
+  margin: 0 0 4px;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.toast__body {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.45;
 }
 
 .login-footer {
@@ -518,6 +606,19 @@ a {
 
 .dashboard-card .eyebrow {
   color: var(--accent-deep);
+}
+
+.unauthorized-body {
+  background: linear-gradient(180deg, #f5f3ef 0%, #ece7de 100%);
+}
+
+.unauthorized-card {
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.unauthorized-button {
+  padding: 0 20px;
 }
 
 .dashboard-card h1 {
@@ -607,6 +708,12 @@ a {
 
   .hero-logo {
     width: 168px;
+  }
+
+  .toast-region {
+    left: 16px;
+    right: 16px;
+    width: auto;
   }
 
   .hero-copy {

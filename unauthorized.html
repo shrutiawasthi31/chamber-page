@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="LexReason unauthorized access notice." />
+    <title>Unauthorized | LexReason</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="dashboard-body unauthorized-body">
+    <main class="dashboard-shell fade-in">
+      <section class="dashboard-card unauthorized-card">
+        <img
+          src="assets/lexreason-logo.png"
+          alt="LexReason logo"
+          class="dashboard-logo"
+          width="220"
+          height="72"
+        />
+        <p class="eyebrow">Authorization Required</p>
+        <h1 id="unauthorizedTitle">Your session is no longer valid</h1>
+        <p id="unauthorizedMessage" class="dashboard-copy">
+          Please return to login and start LinkedIn sign-in again.
+        </p>
+        <div class="dashboard-actions">
+          <a class="primary-button unauthorized-button" href="index.html">Back to Login</a>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const reason = params.get("reason");
+      const title = document.getElementById("unauthorizedTitle");
+      const message = document.getElementById("unauthorizedMessage");
+
+      if (reason === "expired") {
+        title.textContent = "Your LinkedIn session expired";
+        message.textContent = "The sign-in token expired before LexReason could finish logging you in. Please try again.";
+      } else if (reason === "invalid") {
+        title.textContent = "Your LinkedIn session is invalid";
+        message.textContent = "LexReason could not verify the returned LinkedIn token. Please sign in again.";
+      }
+    </script>
+  </body>
+</html>

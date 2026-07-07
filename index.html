@@ -173,12 +173,24 @@
                     </svg>
                   </span>
                 </button>
-                <button class="social-button" id="linkedinAuthButton" type="button" aria-label="Continue with LinkedIn">
+                <button
+                  class="social-button social-button--linkedin"
+                  id="linkedinAuthButton"
+                  type="button"
+                  aria-label="Continue with LinkedIn"
+                >
                   <span class="social-glyph social-glyph--linkedin" aria-hidden="true">
                     <svg viewBox="0 0 24 24" focusable="false">
-                      <path fill="#0A66C2" d="M20.447 20.452H16.89v-5.569c0-1.328-.024-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.345V9h3.414v1.561h.049c.476-.9 1.637-1.85 3.37-1.85 3.605 0 4.27 2.372 4.27 5.456v6.285zM5.337 7.433a2.063 2.063 0 1 1 0-4.126 2.063 2.063 0 0 1 0 4.126zM7.119 20.452H3.556V9h3.563v11.452z"/>
+                      <path fill="#FFFFFF" d="M20.447 20.452H16.89v-5.569c0-1.328-.024-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.345V9h3.414v1.561h.049c.476-.9 1.637-1.85 3.37-1.85 3.605 0 4.27 2.372 4.27 5.456v6.285zM5.337 7.433a2.063 2.063 0 1 1 0-4.126 2.063 2.063 0 0 1 0 4.126zM7.119 20.452H3.556V9h3.563v11.452z"/>
                     </svg>
                   </span>
+                </button>
+              </div>
+
+              <div id="linkedinAssist" class="linkedin-assist" hidden>
+                <p id="linkedinAssistMessage" class="linkedin-assist__message" aria-live="polite"></p>
+                <button id="linkedinRetryButton" class="secondary-button" type="button">
+                  Retry LinkedIn Login
                 </button>
               </div>
             </div>
@@ -193,6 +205,8 @@
         </article>
       </section>
     </main>
+
+    <div id="toastRegion" class="toast-region" aria-live="polite" aria-atomic="true"></div>
 
     <script src="firebase-config.js"></script>
     <script type="module" src="auth.js"></script>

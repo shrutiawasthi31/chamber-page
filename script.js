@@ -2,6 +2,7 @@
 const storageKeys = {
   rememberedEmail: "lexreasonRememberedEmail",
   activeUser: "lexreasonChamberUser",
+  linkedInJwt: "lexreasonLinkedInJwt",
 };
 
 // Utility helpers for route and field validation.
@@ -83,6 +84,31 @@ function getActiveUser() {
 
 function clearActiveUser() {
   localStorage.removeItem(storageKeys.activeUser);
+  localStorage.removeItem(storageKeys.linkedInJwt);
+}
+
+function getSessionUserIdentifier(user) {
+  return user?.email || user?.name || "LinkedIn User";
+}
+
+function captureOauthRedirectState() {
+  const params = new URLSearchParams(window.location.search);
+  const provider = params.get("provider");
+
+  if (provider !== "linkedin") {
+    return;
+  }
+
+  if (params.get("linkedin") === "error") {
+    return;
+  }
+
+  const email = params.get("email");
+  const name = params.get("name");
+  saveActiveUser(email || name || "LinkedIn User");
+
+  const cleanUrl = `${window.location.origin}${window.location.pathname}`;
+  window.history.replaceState({}, document.title, cleanUrl);
 }
 
 async function hydrateUserFromSession() {
@@ -97,7 +123,7 @@ async function hydrateUserFromSession() {
 
     const payload = await response.json();
     if (payload?.authenticated && payload.user) {
-      saveActiveUser(payload.user.email || payload.user.name || "LinkedIn User");
+      saveActiveUser(getSessionUserIdentifier(payload.user));
     }
   } catch (error) {
     console.error("Session lookup failed", error);
@@ -123,7 +149,7 @@ async function enforceDashboardAccess() {
 
     const payload = await response.json();
     if (payload?.authenticated && payload.user) {
-      saveActiveUser(payload.user.email || payload.user.name || "LinkedIn User");
+      saveActiveUser(getSessionUserIdentifier(payload.user));
       return true;
     }
   } catch (error) {
@@ -150,7 +176,7 @@ async function redirectAuthenticatedLogin() {
 
     const payload = await response.json();
     if (payload?.authenticated && payload.user) {
-      saveActiveUser(payload.user.email || payload.user.name || "LinkedIn User");
+      saveActiveUser(getSessionUserIdentifier(payload.user));
       window.location.replace("dashboard.html");
     }
   } catch (error) {
@@ -263,11 +289,14 @@ function setupDashboard() {
 
 // Bootstraps the correct page logic after the DOM is ready.
 document.addEventListener("DOMContentLoaded", async () => {
+  captureOauthRedirectState();
+
   if (isDashboardPage()) {
     const canViewDashboard = await enforceDashboardAccess();
     if (!canViewDashboard) {
       return;
     }
+    await hydrateUserFromSession();
     setupDashboard();
   } else {
     await redirectAuthenticatedLogin();
