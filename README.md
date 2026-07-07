@@ -124,14 +124,14 @@ GitHub Pages hosts the static LexReason UI. Render hosts the Express backend req
 Choose your final production URLs first. Current project values:
 
 - Frontend: `https://shrutiawasthi31.github.io/chamber-page`
-- Backend: `https://chamber-page-2.onrender.com`
+- Backend: `https://chamber-page-1.onrender.com`
 
 ### 2. Update Frontend Runtime Config
 
 Edit [firebase-config.js](/Users/shrutismac/Documents/Codex/2026-07-02/lexreason-https-www-figma-com-proto/work/chamber-page/firebase-config.js:1) and replace:
 
 ```js
-https://chamber-page-2.onrender.com
+https://chamber-page-1.onrender.com
 ```
 
 with your real Render backend URL.
@@ -146,13 +146,13 @@ This is what the GitHub Pages frontend will use for:
 In LinkedIn Developer Portal, set the production OAuth callback to:
 
 ```text
-https://chamber-page-2.onrender.com/auth/linkedin/callback
+https://chamber-page-1.onrender.com/auth/linkedin/callback
 ```
 
 Then set the backend env var:
 
 ```text
-LINKEDIN_REDIRECT_URI=https://chamber-page-2.onrender.com/auth/linkedin/callback
+LINKEDIN_REDIRECT_URI=https://chamber-page-1.onrender.com/auth/linkedin/callback
 ```
 
 The LinkedIn callback must point to Render, not GitHub Pages, because GitHub Pages cannot run the OAuth token exchange.
@@ -180,8 +180,8 @@ Production Render environment values should look like:
 NODE_ENV=production
 FRONTEND_URL=https://shrutiawasthi31.github.io/chamber-page
 FRONTEND_SUCCESS_URL=https://shrutiawasthi31.github.io/chamber-page
-CORS_ORIGIN=https://shrutiawasthi31.github.io/chamber-page
-LINKEDIN_REDIRECT_URI=https://chamber-page-2.onrender.com/auth/linkedin/callback
+CORS_ORIGIN=https://shrutiawasthi31.github.io
+LINKEDIN_REDIRECT_URI=https://chamber-page-1.onrender.com/auth/linkedin/callback
 ```
 
 Also set:
@@ -233,9 +233,9 @@ Important production variables:
 ```text
 FRONTEND_URL=https://shrutiawasthi31.github.io/chamber-page
 FRONTEND_SUCCESS_URL=https://shrutiawasthi31.github.io/chamber-page
-CORS_ORIGIN=https://shrutiawasthi31.github.io/chamber-page
-RENDER_EXTERNAL_URL=https://chamber-page-2.onrender.com
-LINKEDIN_REDIRECT_URI=https://chamber-page-2.onrender.com/auth/linkedin/callback
+CORS_ORIGIN=https://shrutiawasthi31.github.io
+RENDER_EXTERNAL_URL=https://chamber-page-1.onrender.com
+LINKEDIN_REDIRECT_URI=https://chamber-page-1.onrender.com/auth/linkedin/callback
 ```
 
 ### 8. Deploy Order
@@ -277,9 +277,9 @@ Render handles:
 
 Before going live, verify:
 
-1. `firebase-config.js` points to `https://chamber-page-2.onrender.com`
-2. Render `CORS_ORIGIN` exactly matches `https://shrutiawasthi31.github.io/chamber-page`
-3. `LINKEDIN_REDIRECT_URI` exactly matches `https://chamber-page-2.onrender.com/auth/linkedin/callback`
+1. `firebase-config.js` points to `https://chamber-page-1.onrender.com`
+2. Render `CORS_ORIGIN` exactly matches `https://shrutiawasthi31.github.io`
+3. `LINKEDIN_REDIRECT_URI` exactly matches `https://chamber-page-1.onrender.com/auth/linkedin/callback`
 4. Firebase Authorized Domains includes `shrutiawasthi31.github.io`
 5. GitHub Pages is configured to use GitHub Actions
 6. Render backend `/health` responds successfully
