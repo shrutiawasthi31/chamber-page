@@ -70,7 +70,7 @@ export function buildLinkedInAuthorizationUrl(state) {
     response_type: "code",
     client_id: getRequiredEnv("LINKEDIN_CLIENT_ID"),
     redirect_uri: getRequiredEnv("LINKEDIN_REDIRECT_URI"),
-    scope: "r_liteprofile r_emailaddress",
+    scope: "openid profile email",
     state
   });
 
