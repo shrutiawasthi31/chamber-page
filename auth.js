@@ -2,9 +2,10 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/fireba
 import {
   getAuth,
   GoogleAuthProvider,
+  getRedirectResult,
   signOut,
   signInWithEmailAndPassword,
-  signInWithPopup
+  signInWithRedirect
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
 function hasFirebaseConfig(config) {
@@ -292,18 +293,25 @@ document.addEventListener("DOMContentLoaded", () => {
   const linkedinAuthButton = document.getElementById("linkedinAuthButton");
   const linkedinRetryButton = document.getElementById("linkedinRetryButton");
 
+  getRedirectResult(auth)
+    .then((result) => {
+      if (result?.user) {
+        saveUserAndRedirect(result.user.email || result.user.phoneNumber || "Google User");
+      }
+    })
+    .catch((error) => {
+      setMessage("formError", getFriendlyAuthError(error, "Google"));
+    });
+
   googleAuthButton?.addEventListener("click", async () => {
     setMessage("formError", "");
     setButtonLoading(googleAuthButton, true);
 
     try {
       await signOut(auth).catch(() => {});
-      const result = await signInWithPopup(auth, googleProvider);
-      saveUserAndRedirect(result.user.email || result.user.phoneNumber || "Google User");
+      await signInWithRedirect(auth, googleProvider);
     } catch (error) {
       setMessage("formError", getFriendlyAuthError(error, "Google"));
-    } finally {
-      setButtonLoading(googleAuthButton, false);
     }
   });
 
