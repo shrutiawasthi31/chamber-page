@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/auth/linkedin",
+      "destination": "/api/auth/linkedin"
+    },
+    {
+      "source": "/auth/linkedin/callback",
+      "destination": "/api/auth/linkedin-callback"
+    },
+    {
+      "source": "/auth/logout",
+      "destination": "/api/logout"
+    }
+  ]
+}

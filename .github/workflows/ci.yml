@@ -37,3 +37,9 @@ jobs:
           node --check script.js
           node --check auth.js
           node --check server.js
+          node --check api/_lib/session.js
+          node --check api/_lib/linkedin.js
+          node --check api/auth/linkedin.js
+          node --check api/auth/linkedin-callback.js
+          node --check api/me.js
+          node --check api/logout.js

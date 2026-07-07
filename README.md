@@ -112,9 +112,7 @@ If `firebase-config.js` is still empty, the project keeps using the current mock
 
 ## Live Deployment
 
-Because LinkedIn sign-in now depends on a Node server, this project should be deployed to a runtime host such as Render, Railway, or another Node hosting platform. GitHub Pages cannot run the backend required for LinkedIn OAuth.
-
-This repository includes [render.yaml](/Users/shrutismac/Documents/Codex/2026-07-02/lexreason-https-www-figma-com-proto/work/chamber-page/render.yaml:1) for easy Render deployment.
+Because LinkedIn sign-in now depends on backend code, GitHub Pages can no longer host the full auth flow. The recommended free deployment target is Vercel using the included serverless API routes and [vercel.json](/Users/shrutismac/Documents/Codex/2026-07-02/lexreason-https-www-figma-com-proto/work/chamber-page/vercel.json:1).
 
 ## CI Pipeline Explanation
 
@@ -216,25 +214,24 @@ This sends your local project to GitHub and makes `main` the primary branch.
 
 This proves that the project is tested and deployment-ready.
 
-### 7. Deploy to Render
+### 7. Deploy to Vercel
 
 1. Push this repository to GitHub.
-2. Create a new Render Web Service from the repo.
-3. Render will detect `render.yaml`.
-4. Add environment variables:
+2. Import the repo into Vercel.
+3. Add environment variables:
    - `SESSION_SECRET`
    - `LINKEDIN_CLIENT_ID`
    - `LINKEDIN_CLIENT_SECRET`
    - `LINKEDIN_REDIRECT_URI`
-5. Set the production LinkedIn redirect URL in the LinkedIn developer console to:
+4. Set the production LinkedIn redirect URL in the LinkedIn developer console to:
 
 ```text
-https://your-render-service.onrender.com/auth/linkedin/callback
+https://your-project.vercel.app/auth/linkedin/callback
 ```
 
 ### 8. Access the deployed website
 
-Open your Render service URL after deployment finishes.
+Open your Vercel URL after deployment finishes.
 
 ## How to Explain This to a Mentor
 
