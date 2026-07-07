@@ -16,10 +16,19 @@ function getRequiredEnv(name) {
   return value;
 }
 
+function normalizePrivateKey(privateKey) {
+  if (!privateKey) {
+    return "";
+  }
+
+  const trimmedKey = privateKey.trim().replace(/^"(.*)"$/s, "$1").replace(/^'(.*)'$/s, "$1");
+  return trimmedKey.replace(/\\n/g, "\n");
+}
+
 function getFirebaseCredential() {
   const projectId = process.env.FIREBASE_PROJECT_ID;
   const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
-  const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
+  const privateKey = normalizePrivateKey(process.env.FIREBASE_PRIVATE_KEY);
 
   if (!projectId || !clientEmail || !privateKey) {
     const error = new Error(
