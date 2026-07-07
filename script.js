@@ -87,6 +87,9 @@ function clearActiveUser() {
   localStorage.removeItem(storageKeys.activeUser);
   localStorage.removeItem(storageKeys.linkedInJwt);
   localStorage.removeItem(storageKeys.facebookAccessToken);
+  sessionStorage.removeItem(storageKeys.activeUser);
+  sessionStorage.removeItem(storageKeys.linkedInJwt);
+  sessionStorage.removeItem(storageKeys.facebookAccessToken);
 }
 
 function getSessionUserIdentifier(user) {
@@ -266,6 +269,7 @@ function setupDashboard() {
   logoutButton.addEventListener("click", async () => {
     setLoadingState(logoutButton, true);
     clearActiveUser();
+    window.sessionStorage.clear();
 
     try {
       await fetch("/auth/logout", {

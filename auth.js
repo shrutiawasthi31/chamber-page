@@ -297,6 +297,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setButtonLoading(googleAuthButton, true);
 
     try {
+      await signOut(auth).catch(() => {});
       const result = await signInWithPopup(auth, googleProvider);
       saveUserAndRedirect(result.user.email || result.user.phoneNumber || "Google User");
     } catch (error) {
