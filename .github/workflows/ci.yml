@@ -36,6 +36,7 @@ jobs:
         run: |
           node --check script.js
           node --check auth.js
+          node --check chamber.js
           node --check server.js
           node --check api/_lib/session.js
           node --check api/_lib/linkedin.js

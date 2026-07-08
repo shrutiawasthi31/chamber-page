@@ -3,49 +3,174 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LexReason Chamber Dashboard</title>
+    <title>LexReason Chamber</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body class="dashboard-body">
-    <main class="dashboard-shell fade-in">
-      <!-- Post-login dashboard welcome card -->
-      <section class="dashboard-card">
-        <img
-          src="assets/lexreason-logo.png"
-          alt="LexReason logo"
-          class="dashboard-logo"
-          width="220"
-          height="72"
-        />
-        <p class="eyebrow">LexReason Chamber</p>
-        <h1>Welcome to LexReason Chamber</h1>
-        <p class="dashboard-copy">
-          Your legal workspace is ready. Continue managing cases, research, hearings,
-          and clients from one secure platform.
-        </p>
-        <div class="dashboard-actions">
-          <a class="dashboard-link" href="index.html">Back to Login</a>
-          <button id="logoutButton" class="primary-button dashboard-button" type="button">
-            <span class="button-icon" aria-hidden="true">
+  <body class="dashboard-body chamber-body">
+    <div class="chamber-app fade-in" data-chamber-app>
+      <button
+        id="sidebarToggle"
+        class="chamber-mobile-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="chamberSidebar"
+        aria-label="Open cases sidebar"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="chamber-overlay" data-sidebar-overlay hidden></div>
+
+      <aside id="chamberSidebar" class="chamber-sidebar" data-sidebar>
+        <div class="chamber-sidebar__inner">
+          <div class="chamber-brand">
+            <img
+              src="assets/Clogo.svg"
+              alt="LexReason logo"
+              class="chamber-brand__logo"
+              width="206"
+              height="46"
+            />
+          </div>
+
+          <section class="sidebar-section sidebar-section--compact" aria-labelledby="topLevelHeading">
+            <p id="topLevelHeading" class="sidebar-label">Top Level</p>
+            <a class="sidebar-nav-link" href="#" aria-current="page">
+              <span class="sidebar-nav-link__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path d="M3 21h18M5 21V8l7-4 7 4v13M9 21v-6h6v6M7 10h.01M17 10h.01" />
+                </svg>
+              </span>
+              <span>Chambers</span>
+            </a>
+          </section>
+
+          <section class="sidebar-section sidebar-section--cases" aria-labelledby="casesHeading">
+            <div class="sidebar-section__header">
+              <p id="casesHeading" class="sidebar-label">Cases</p>
+            </div>
+
+            <label class="sidebar-search" for="caseSearch">
+              <span class="sidebar-search__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z" />
+                </svg>
+              </span>
+              <input id="caseSearch" type="search" placeholder="Search Cases" />
+            </label>
+
+            <nav class="case-list" aria-label="Case list">
+              <div id="caseList"></div>
+            </nav>
+
+            <button id="caseListToggle" class="case-list-toggle" type="button" aria-expanded="true">
+              <span>Less</span>
+              <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                <path d="m6 15 6-6 6 6" />
+              </svg>
+            </button>
+          </section>
+        </div>
+
+        <div class="profile-card-shell">
+          <!-- TODO: Replace initials avatar with the real signed-in user image when available. -->
+          <div class="profile-card" data-profile-toggle tabindex="0" role="button" aria-expanded="false">
+            <div class="profile-card__avatar" aria-hidden="true">JC</div>
+            <div class="profile-card__meta">
+              <p class="profile-card__name">Jane Cooper</p>
+              <p class="profile-card__role">Senior Counsel</p>
+            </div>
+            <span class="profile-card__chevron" aria-hidden="true">
               <svg viewBox="0 0 24 24" focusable="false">
-                <path d="M10 7H6a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h4m4-10 5 5-5 5m5-5H9" />
+                <path d="m9 6 6 6-6 6" />
               </svg>
             </span>
-            <span class="button-text">Logout</span>
-            <span class="button-spinner" aria-hidden="true"></span>
-          </button>
+          </div>
+          <div class="profile-actions" data-profile-actions hidden>
+            <button id="logoutButton" class="profile-actions__button" type="button">
+              <span>Logout</span>
+            </button>
+          </div>
         </div>
-      </section>
-    </main>
+      </aside>
+
+      <main class="chamber-main">
+        <header class="chamber-header">
+          <div class="chamber-header__content">
+            <p class="chamber-case-meta"><strong>Case:</strong> State V Arora</p>
+            <h1>Chat Composer</h1>
+            <nav class="chamber-breadcrumbs" aria-label="Breadcrumb">
+              <a href="#">Chambers</a>
+              <span aria-hidden="true">›</span>
+              <a href="#">Case: State v Arora</a>
+              <span aria-hidden="true">›</span>
+              <span>Composer</span>
+            </nav>
+            <a class="back-link" href="#">
+              <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                <path d="M19 12H5m7-7-7 7 7 7" />
+              </svg>
+              <span>Back to Conversations</span>
+            </a>
+          </div>
+
+          <a class="digest-link" href="#">
+            <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+              <path d="M3 7h18M5 7V5h14v2M5 7v12h14V7M9 11h6" />
+            </svg>
+            <span>Digest View</span>
+          </a>
+        </header>
+
+        <section class="summary-grid" id="summaryGrid" aria-label="Composer summary"></section>
+
+        <section class="review-panel">
+          <div class="review-panel__section">
+            <h2>Review Items</h2>
+            <div id="reviewList" class="review-list"></div>
+          </div>
+
+          <div class="review-panel__divider"></div>
+
+          <div class="pinned-conversation">
+            <div>
+              <h3>Pinned Conversation</h3>
+              <p>Show the highest-priority next step for this page.</p>
+            </div>
+            <span class="trace-pill">Trace Pin</span>
+          </div>
+        </section>
+
+        <section class="info-grid">
+          <article class="info-card">
+            <h2>Input Modes</h2>
+            <div id="inputModesList" class="input-modes-list"></div>
+          </article>
+
+          <article class="info-card">
+            <h2>Output Behavior</h2>
+            <div class="status-pill-row" id="outputStatusPills"></div>
+            <p class="info-card__copy">Notifications are quiet and contextual to avoid alert fatigue.</p>
+          </article>
+        </section>
+
+        <section class="info-card info-card--wide">
+          <h2>Output Behavior</h2>
+          <div class="status-pill-row" id="bottomOutputPills"></div>
+          <p class="info-card__copy">
+            One conversation handles Law Search, Judgment Search, and Precedent Intelligence. Counsel chooses depth contextually.
+          </p>
+        </section>
+      </main>
+    </div>
 
     <script src="firebase-config.js?v=20260707b"></script>
     <script type="module" src="auth.js?v=20260707b"></script>
     <script src="script.js?v=20260707b"></script>
+    <script src="chamber.js?v=20260708a"></script>
   </body>
 </html>
