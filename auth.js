@@ -9,6 +9,8 @@ import {
   signInWithRedirect
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
+const googleRedirectStorageKey = "lexreasonGoogleRedirectPending";
+
 function hasFirebaseConfig(config) {
   return Boolean(config && config.apiKey && config.authDomain && config.projectId && config.appId);
 }
@@ -138,6 +140,7 @@ function handleLinkedInAuthResult() {
 
 function saveUserAndRedirect(identifier) {
   localStorage.setItem("lexreasonChamberUser", identifier);
+  sessionStorage.removeItem(googleRedirectStorageKey);
   window.location.href = "dashboard.html";
 }
 
@@ -177,6 +180,18 @@ function setButtonLoading(button, loading) {
 
   button.classList.toggle("is-loading", loading);
   button.disabled = loading;
+}
+
+function markGoogleRedirectPending() {
+  sessionStorage.setItem(googleRedirectStorageKey, "true");
+}
+
+function clearGoogleRedirectPending() {
+  sessionStorage.removeItem(googleRedirectStorageKey);
+}
+
+function isGoogleRedirectPending() {
+  return sessionStorage.getItem(googleRedirectStorageKey) === "true";
 }
 
 function getFacebookLoginUrl() {
@@ -305,8 +320,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     signInWithEmailPassword() {
       return signInWithEmailAndPassword(auth, emailInput?.value.trim() || "", passwordInput?.value.trim() || "");
     },
+    isGoogleRedirectPending,
     async getAuthenticatedUser() {
-      const user = await waitForFirebaseUser(auth);
+      const user = await waitForFirebaseUser(auth, isGoogleRedirectPending() ? 5000 : 1800);
       return user
         ? {
             email: user.email,
@@ -321,8 +337,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   };
 
   if (isDashboard) {
-    const firebaseUser = await waitForFirebaseUser(auth, 1800);
+    const firebaseUser = await waitForFirebaseUser(auth, isGoogleRedirectPending() ? 5000 : 1800);
     if (firebaseUser) {
+      clearGoogleRedirectPending();
       localStorage.setItem(
         "lexreasonChamberUser",
         firebaseUser.email || firebaseUser.phoneNumber || firebaseUser.displayName || "Google User"
@@ -341,12 +358,28 @@ document.addEventListener("DOMContentLoaded", async () => {
   const linkedinRetryButton = document.getElementById("linkedinRetryButton");
 
   getRedirectResult(auth)
-    .then((result) => {
+    .then(async (result) => {
       if (result?.user) {
-        saveUserAndRedirect(result.user.email || result.user.phoneNumber || "Google User");
+        clearGoogleRedirectPending();
+        saveUserAndRedirect(result.user.email || result.user.phoneNumber || result.user.displayName || "Google User");
+        return;
       }
+
+      if (isGoogleRedirectPending()) {
+        const firebaseUser = await waitForFirebaseUser(auth, 5000);
+        if (firebaseUser) {
+          clearGoogleRedirectPending();
+          saveUserAndRedirect(
+            firebaseUser.email || firebaseUser.phoneNumber || firebaseUser.displayName || "Google User"
+          );
+          return;
+        }
+      }
+
+      clearGoogleRedirectPending();
     })
     .catch((error) => {
+      clearGoogleRedirectPending();
       setMessage("formError", getFriendlyAuthError(error, "Google"));
     });
 
@@ -356,8 +389,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
       await signOut(auth).catch(() => {});
+      markGoogleRedirectPending();
       await signInWithRedirect(auth, googleProvider);
     } catch (error) {
+      clearGoogleRedirectPending();
       setMessage("formError", getFriendlyAuthError(error, "Google"));
     }
   });

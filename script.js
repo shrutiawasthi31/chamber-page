@@ -97,6 +97,20 @@ async function getFirebaseAuthenticatedUser() {
   }
 }
 
+function isGoogleRedirectPending() {
+  const firebaseBridge = window.lexreasonFirebase;
+  if (!firebaseBridge?.enabled || typeof firebaseBridge.isGoogleRedirectPending !== "function") {
+    return false;
+  }
+
+  try {
+    return firebaseBridge.isGoogleRedirectPending();
+  } catch (error) {
+    console.error("Google redirect state lookup failed", error);
+    return false;
+  }
+}
+
 function clearActiveUser() {
   localStorage.removeItem(storageKeys.activeUser);
   localStorage.removeItem(storageKeys.linkedInJwt);
@@ -162,6 +176,10 @@ async function enforceDashboardAccess() {
     return true;
   }
 
+  if (isGoogleRedirectPending()) {
+    return true;
+  }
+
   try {
     const response = await fetch("/api/me", {
       credentials: "same-origin"
@@ -194,6 +212,10 @@ async function redirectAuthenticatedLogin() {
   if (firebaseUser) {
     saveActiveUser(firebaseUser.email || firebaseUser.phoneNumber || firebaseUser.displayName || "Google User");
     window.location.replace("dashboard.html");
+    return;
+  }
+
+  if (isGoogleRedirectPending()) {
     return;
   }
 
