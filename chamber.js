@@ -196,7 +196,7 @@ function setupSidebarControls() {
   const overlay = document.querySelector("[data-sidebar-overlay]");
   const toggle = document.getElementById("sidebarToggle");
   const collapseToggle = document.getElementById("caseListToggle");
-  const caseList = document.getElementById("caseList");
+  const caseList = document.getElementById("case-list");
 
   if (!sidebar || !overlay || !toggle || !collapseToggle || !caseList) {
     return;
@@ -232,7 +232,7 @@ function setupSidebarControls() {
 
 function setupCaseSearch() {
   const searchInput = document.getElementById("caseSearch");
-  const caseList = document.getElementById("caseList");
+  const caseList = document.getElementById("case-list");
 
   if (!searchInput || !caseList) {
     return;
@@ -248,7 +248,7 @@ function setupCaseSearch() {
 }
 
 function renderChamberPage() {
-  const caseList = document.getElementById("caseList");
+  const caseList = document.getElementById("case-list");
   const summaryGrid = document.getElementById("summaryGrid");
   const reviewList = document.getElementById("reviewList");
   const inputModesList = document.getElementById("inputModesList");

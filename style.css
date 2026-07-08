@@ -727,7 +727,7 @@ a {
 }
 
 .chamber-brand {
-  padding: 34px 32px 34px;
+  padding: 34px 32px;
 }
 
 .chamber-brand__logo {
@@ -829,7 +829,7 @@ a {
   min-height: 0;
 }
 
-.case-list #caseList {
+.case-list #case-list {
   display: grid;
   gap: 4px;
 }
@@ -1162,7 +1162,7 @@ a {
 .review-panel__section,
 .pinned-conversation,
 .info-card {
-  padding: 22px 22px 22px;
+  padding: 22px;
 }
 
 .review-panel__section h2,
@@ -1333,15 +1333,12 @@ a {
   color: #3d3a37;
 }
 
-.info-card--wide {
-  margin-bottom: 10px;
-}
-
 .info-card:not(.info-card--wide) {
   min-height: 198px;
 }
 
 .info-card--wide {
+  margin-bottom: 10px;
   min-height: 156px;
 }
 
