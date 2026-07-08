@@ -83,8 +83,23 @@ function getActiveUser() {
   return localStorage.getItem(storageKeys.activeUser);
 }
 
+async function waitForFirebaseBridge(timeoutMs = 2500) {
+  const startedAt = Date.now();
+
+  while (Date.now() - startedAt < timeoutMs) {
+    const firebaseBridge = window.lexreasonFirebase;
+    if (firebaseBridge && typeof firebaseBridge === "object") {
+      return firebaseBridge;
+    }
+
+    await new Promise((resolve) => window.setTimeout(resolve, 50));
+  }
+
+  return window.lexreasonFirebase || null;
+}
+
 async function getFirebaseAuthenticatedUser() {
-  const firebaseBridge = window.lexreasonFirebase;
+  const firebaseBridge = await waitForFirebaseBridge();
   if (!firebaseBridge?.enabled || typeof firebaseBridge.getAuthenticatedUser !== "function") {
     return null;
   }
@@ -345,6 +360,8 @@ function setupDashboard() {
 // Bootstraps the correct page logic after the DOM is ready.
 document.addEventListener("DOMContentLoaded", async () => {
   captureOauthRedirectState();
+
+  await waitForFirebaseBridge();
 
   if (isDashboardPage()) {
     const canViewDashboard = await enforceDashboardAccess();
