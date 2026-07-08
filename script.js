@@ -83,6 +83,20 @@ function getActiveUser() {
   return localStorage.getItem(storageKeys.activeUser);
 }
 
+async function getFirebaseAuthenticatedUser() {
+  const firebaseBridge = window.lexreasonFirebase;
+  if (!firebaseBridge?.enabled || typeof firebaseBridge.getAuthenticatedUser !== "function") {
+    return null;
+  }
+
+  try {
+    return await firebaseBridge.getAuthenticatedUser();
+  } catch (error) {
+    console.error("Firebase session lookup failed", error);
+    return null;
+  }
+}
+
 function clearActiveUser() {
   localStorage.removeItem(storageKeys.activeUser);
   localStorage.removeItem(storageKeys.linkedInJwt);
@@ -142,6 +156,12 @@ async function enforceDashboardAccess() {
     return true;
   }
 
+  const firebaseUser = await getFirebaseAuthenticatedUser();
+  if (firebaseUser) {
+    saveActiveUser(firebaseUser.email || firebaseUser.phoneNumber || firebaseUser.displayName || "Google User");
+    return true;
+  }
+
   try {
     const response = await fetch("/api/me", {
       credentials: "same-origin"
@@ -167,6 +187,13 @@ async function enforceDashboardAccess() {
 
 async function redirectAuthenticatedLogin() {
   if (getActiveUser()) {
+    return;
+  }
+
+  const firebaseUser = await getFirebaseAuthenticatedUser();
+  if (firebaseUser) {
+    saveActiveUser(firebaseUser.email || firebaseUser.phoneNumber || firebaseUser.displayName || "Google User");
+    window.location.replace("dashboard.html");
     return;
   }
 

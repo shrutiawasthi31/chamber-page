@@ -3,6 +3,7 @@ import {
   getAuth,
   GoogleAuthProvider,
   getRedirectResult,
+  onAuthStateChanged,
   signOut,
   signInWithEmailAndPassword,
   signInWithRedirect
@@ -140,6 +141,35 @@ function saveUserAndRedirect(identifier) {
   window.location.href = "dashboard.html";
 }
 
+function waitForFirebaseUser(auth, timeoutMs = 1200) {
+  if (auth.currentUser) {
+    return Promise.resolve(auth.currentUser);
+  }
+
+  return new Promise((resolve) => {
+    let settled = false;
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (settled) {
+        return;
+      }
+
+      settled = true;
+      unsubscribe();
+      resolve(user || null);
+    });
+
+    window.setTimeout(() => {
+      if (settled) {
+        return;
+      }
+
+      settled = true;
+      unsubscribe();
+      resolve(auth.currentUser || null);
+    }, timeoutMs);
+  });
+}
+
 function setButtonLoading(button, loading) {
   if (!button) {
     return;
@@ -246,7 +276,7 @@ async function beginLinkedInLogin(linkedinAuthButton) {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   if (handleLinkedInAuthResult()) {
     return;
   }
@@ -275,12 +305,29 @@ document.addEventListener("DOMContentLoaded", () => {
     signInWithEmailPassword() {
       return signInWithEmailAndPassword(auth, emailInput?.value.trim() || "", passwordInput?.value.trim() || "");
     },
+    async getAuthenticatedUser() {
+      const user = await waitForFirebaseUser(auth);
+      return user
+        ? {
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+            displayName: user.displayName
+          }
+        : null;
+    },
     signOut() {
       return signOut(auth);
     }
   };
 
   if (isDashboard) {
+    const firebaseUser = await waitForFirebaseUser(auth, 1800);
+    if (firebaseUser) {
+      localStorage.setItem(
+        "lexreasonChamberUser",
+        firebaseUser.email || firebaseUser.phoneNumber || firebaseUser.displayName || "Google User"
+      );
+    }
     return;
   }
 
