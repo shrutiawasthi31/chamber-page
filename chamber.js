@@ -12,58 +12,47 @@ const chamberData = {
   ],
   summaries: [
     {
-      tone: "risk",
-      label: "Risk",
-      title: "Composer Caution",
-      body: "Role-attribution language conflicts between FIR para 7 and supplementary statement.",
-      meta: "dowry_prohibition_act_1961, domestic_violenc..."
+      tone: "review",
+      label: "For Review",
+      title: "Priority Review",
+      chips: ["State v Arora", "Dowry Complaint Review", "Cyber Fraud Appeal have strategic upda..."]
     },
     {
       tone: "support",
       label: "Support",
-      title: "Agent Memory Extraction",
-      body: "Demand chronology remains internally consistent across complaint, witness exc...",
-      meta: "dowry_prohibition_act_1961, domestic_violenc..."
+      title: "Fastest Positive Momentum",
+      body: "Land Transfer Dispute gained a stronger possession narrative from mutation an...",
+      meta: "transfer_of_property_act_1882, specific_reli..."
     },
     {
       tone: "open",
       label: "Open",
-      title: "Prompt Framing Question",
-      body: "Should entrustment language for section 406 be narrowed to avoid over-breadth...",
-      meta: "dowry_prohibition_act_1961, domestic_violenc..."
+      title: "Portfolio Open Question",
+      body: "Should cyber-evidence admissibility and matrimonial-risk calibration be revie...",
+      meta: "it_act, limitation_act_1963 | Anvar (2014)"
     }
+  ],
+  today: [
+    "State v Arora: 2 strategic items pending review.",
+    "Land Transfer Dispute: 3 new propositions extracted.",
+    "Cyber Fraud Appeal: brief update queued from evidence analysis."
+  ],
+  forReview: [
+    "3 strategic updates waiting for lawyer decision.",
+    "4 low-risk updates auto-applied with undo available.",
+    "1 cross-case intent held for confirmation."
   ],
   reviews: [
     {
-      title: "Review high-impact prompt output before memory write-back.",
+      title: "Resolve highest-impact review items before opening draft-generation for tomorrow's filing batch.",
       metaStrong: "Case:",
-      meta: " State v Arora | Domain: Dowry and domestic violence prosecution"
+      meta: " Portfolio review - 3 cases pending"
     },
     {
-      title: "Confirm cross-case intent was resolved without context switching.",
-      metaStrong: "Primary source trees:",
-      meta: " dowry_prohibition_act_1961, domestic_violence_act_2005"
-    },
-    {
-      title: "Prepare a constrained branch for bail opposition using only approved factual nodes.",
-      metaStrong: "",
-      meta: "Next action seeded by agent from dowry_prohibition_act_1961"
+      title: "Validate cross-case context guard so counsel chats never auto-switch between active matters.",
+      metaStrong: "Safety review",
+      meta: " - cross-case intent policy"
     }
-  ],
-  inputModes: [
-    "Text, image, PDF, voice note, multi-record upload.",
-    'User can explicitly ask: "save this in Digest/Ratio/Notes".',
-    "Default behavior remains agent-driven classification."
-  ],
-  outputStatus: [
-    { label: "Low-risk auto-applied", tone: "success" },
-    { label: "Strategic updates reviewed", tone: "warning" }
-  ],
-  bottomOutput: [
-    { label: "Applicable Laws", tone: "success" },
-    { label: "Judgment Set", tone: "success" },
-    { label: "Precedent Impact", tone: "success" },
-    { label: "Draft-ready points", tone: "warning" }
   ]
 };
 
@@ -167,12 +156,17 @@ function renderSummaryIcon(tone) {
 
   return `
     <svg viewBox="0 0 24 24" focusable="false">
-      <path d="M12 3 2 21h20L12 3zm0 6v5m0 4h.01" />
+      <path d="M4 13.5V7a2 2 0 0 1 2-2h9.5a2 2 0 0 1 2 2v6.5a2 2 0 0 1-2 2H10l-4 3v-3H6a2 2 0 0 1-2-2Z" />
+      <path d="m17 3 1 2 2 .5-1.5 1.4.4 2.1L17 8l-1.9 1 .4-2.1L14 5.5l2-.5 1-2Z" />
     </svg>
   `;
 }
 
 function renderSummaryCard(card) {
+  const bodyContent = card.chips
+    ? `<div class="summary-card__chips">${card.chips.map((chip) => `<span>${chip}</span>`).join("")}</div>`
+    : `<p class="summary-card__copy">${card.body}</p><p class="summary-card__meta">${card.meta}</p>`;
+
   return `
     <article class="summary-card">
       <div class="summary-card__header">
@@ -185,8 +179,7 @@ function renderSummaryCard(card) {
         </div>
       </div>
       <div class="summary-card__body">
-        <p class="summary-card__copy">${card.body}</p>
-        <p class="summary-card__meta">${card.meta}</p>
+        ${bodyContent}
         <a href="#" class="summary-card__more">
           <span>More</span>
           <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
@@ -195,6 +188,19 @@ function renderSummaryCard(card) {
         </a>
       </div>
     </article>
+  `;
+}
+
+function renderActivityItem(item) {
+  return `
+    <div class="activity-row">
+      <span class="activity-row__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" focusable="false">
+          <path d="m9 6 6 6-6 6" />
+        </svg>
+      </span>
+      <p>${item}</p>
+    </div>
   `;
 }
 
@@ -318,20 +324,18 @@ function renderChamberPage() {
   const caseList = document.getElementById("case-list");
   const summaryGrid = document.getElementById("summaryGrid");
   const reviewList = document.getElementById("reviewList");
-  const inputModesList = document.getElementById("inputModesList");
-  const outputStatusPills = document.getElementById("outputStatusPills");
-  const bottomOutputPills = document.getElementById("bottomOutputPills");
+  const todayList = document.getElementById("todayList");
+  const forReviewList = document.getElementById("forReviewList");
 
-  if (!caseList || !summaryGrid || !reviewList || !inputModesList || !outputStatusPills || !bottomOutputPills) {
+  if (!caseList || !summaryGrid || !reviewList || !todayList || !forReviewList) {
     return;
   }
 
   caseList.innerHTML = chamberData.cases.map((name) => renderCaseItem(name, name === "State V Arora")).join("");
   summaryGrid.innerHTML = chamberData.summaries.map(renderSummaryCard).join("");
+  todayList.innerHTML = chamberData.today.map(renderActivityItem).join("");
+  forReviewList.innerHTML = chamberData.forReview.map(renderActivityItem).join("");
   reviewList.innerHTML = chamberData.reviews.map(renderReviewItem).join("");
-  inputModesList.innerHTML = chamberData.inputModes.map(renderInputMode).join("");
-  outputStatusPills.innerHTML = chamberData.outputStatus.map(renderStatusPill).join("");
-  bottomOutputPills.innerHTML = chamberData.bottomOutput.map(renderStatusPill).join("");
 }
 
 document.addEventListener("DOMContentLoaded", () => {
