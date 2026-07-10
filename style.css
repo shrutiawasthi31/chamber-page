@@ -729,15 +729,15 @@ a {
 .chamber-sidebar__inner {
   min-height: 0;
   overflow-y: auto;
-  padding: 29px 0 20px;
+  padding: 29px 0 18px;
 }
 
 .chamber-brand {
-  padding: 0 34px 31px;
+  padding: 0 34px 32px;
 }
 
 .chamber-brand__logo {
-  width: 195px;
+  width: 196px;
   max-width: 100%;
   height: auto;
 }
@@ -747,12 +747,12 @@ a {
 }
 
 .sidebar-section--compact {
-  margin-bottom: 36px;
+  margin-bottom: 35px;
 }
 
 .sidebar-section--cases {
   display: grid;
-  gap: 18px;
+  gap: 17px;
 }
 
 .sidebar-label {
@@ -768,8 +768,8 @@ a {
   display: flex;
   align-items: center;
   gap: 13px;
-  min-height: 44px;
-  padding: 0 16px;
+  min-height: 45px;
+  padding: 0 17px;
   border-radius: 6px;
   background: #d0aa4a;
   color: #f4f1ea;
@@ -811,10 +811,10 @@ a {
   display: flex;
   align-items: center;
   min-height: 44px;
-  padding: 0 14px 0 44px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 0 14px 0 43px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
   border-radius: 8px;
-  background: #3d3d3c;
+  background: #3c3c3b;
 }
 
 .sidebar-search__icon {
@@ -843,15 +843,15 @@ a {
 
 .case-list #case-list {
   display: grid;
-  gap: 9px;
+  gap: 8px;
 }
 
 .case-item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 15px;
-  min-height: 35px;
-  padding: 3px 15px;
+  min-height: 37px;
+  padding: 4px 15px;
   border-radius: 8px;
   color: #f2ede6;
   transition: background var(--transition), color var(--transition), transform var(--transition);
@@ -865,7 +865,7 @@ a {
 .case-item__icon {
   color: #d1aa49;
   flex-shrink: 0;
-  margin-top: 1px;
+  margin-top: 0;
 }
 
 .case-item__label {
@@ -888,7 +888,7 @@ a {
   align-items: center;
   gap: 6px;
   width: fit-content;
-  margin-top: 24px;
+  margin-top: 23px;
   border: 0;
   padding: 0;
   background: transparent;
@@ -914,7 +914,7 @@ a {
   align-items: center;
   gap: 14px;
   min-height: 68px;
-  padding: 14px 34px;
+  padding: 14px 34px 14px 35px;
   cursor: pointer;
   background: #383837;
 }
@@ -1254,22 +1254,24 @@ a {
   min-height: 319px;
   margin-bottom: 0;
   border-radius: 10px;
-  background-image: url("assets/chamb6.svg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 1035px 319px;
+  background: #ffffff;
 }
 
 .summary-card > *,
-.activity-card > *,
-.review-panel > * {
+.activity-card > * {
   opacity: 0;
 }
 
 .review-panel__section,
 .pinned-conversation,
 .info-card {
+  box-sizing: border-box;
   padding: 22px 21px 20px;
+}
+
+.review-panel__section {
+  min-height: 232px;
+  padding-bottom: 18px;
 }
 
 .review-panel__section h2,
@@ -1299,9 +1301,9 @@ a {
   display: flex;
   align-items: center;
   gap: 18px;
-  min-height: 74px;
-  padding: 18px;
-  border: 1px solid #e6e3dd;
+  min-height: 76px;
+  padding: 16px 18px 16px 19px;
+  border: 1px solid #e7e4df;
   border-radius: 9px;
   background: #fbfbfa;
 }
@@ -1311,15 +1313,24 @@ a {
   min-width: 0;
 }
 
+.review-row__title {
+  max-width: 755px;
+}
+
+.review-row__meta {
+  margin-top: 2px;
+}
+
 .review-row__meta strong {
   color: #6e6862;
 }
 
 .review-row__button {
+  align-self: center;
   border: 0;
-  min-height: 34px;
-  min-width: 66px;
-  padding: 0 13px;
+  min-height: 36px;
+  min-width: 68px;
+  padding: 0 14px;
   border-radius: 6px;
   background: #d0aa4a;
   color: #ffffff;
@@ -1344,6 +1355,13 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: 20px;
+  min-height: 86px;
+  padding-top: 19px;
+  padding-bottom: 17px;
+}
+
+.pinned-conversation > div {
+  min-width: 0;
 }
 
 .pinned-conversation h3 {
@@ -1364,6 +1382,7 @@ a {
 }
 
 .trace-pill {
+  flex-shrink: 0;
   padding: 7px 12px;
   background: #fdf2d9;
   color: #c99f3b;
