@@ -68,11 +68,15 @@ a {
   padding: 0;
 }
 
+.login-body {
+  overflow-x: hidden;
+}
+
 .page-shell {
   width: 100%;
-  max-width: 1440px;
+  max-width: none;
   min-height: 100vh;
-  margin: 0 auto;
+  margin: 0;
   display: grid;
   grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
 }
@@ -80,7 +84,7 @@ a {
 .hero-panel {
   position: relative;
   min-height: 100vh;
-  background: url("assets/rectangle-34.svg") center center / cover no-repeat;
+  background: url("assets/rectangle-34.svg") left center / cover no-repeat;
   overflow: hidden;
 }
 
@@ -102,7 +106,7 @@ a {
 }
 
 .hero-logo {
-  width: 188px;
+  width: 187px;
   height: auto;
 }
 
