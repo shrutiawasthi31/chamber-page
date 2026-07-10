@@ -1037,6 +1037,21 @@ a {
   height: 260px;
   padding: 16px 15px;
   min-height: 260px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 331px 260px;
+}
+
+.summary-card:nth-child(1) {
+  background-image: url("assets/chamb1.svg");
+}
+
+.summary-card:nth-child(2) {
+  background-image: url("assets/chamb2.svg");
+}
+
+.summary-card:nth-child(3) {
+  background-image: url("assets/chamb3.svg");
 }
 
 .summary-card__header {
@@ -1163,6 +1178,17 @@ a {
   height: 182px;
   padding: 21px 22px 14px;
   overflow: hidden;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 502px 182px;
+}
+
+.activity-card:nth-child(1) {
+  background-image: url("assets/chamb4.svg");
+}
+
+.activity-card:nth-child(2) {
+  background-image: url("assets/chamb5.svg");
 }
 
 .activity-card__heading {
@@ -1228,6 +1254,16 @@ a {
   min-height: 319px;
   margin-bottom: 0;
   border-radius: 10px;
+  background-image: url("assets/chamb6.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 1035px 319px;
+}
+
+.summary-card > *,
+.activity-card > *,
+.review-panel > * {
+  opacity: 0;
 }
 
 .review-panel__section,
