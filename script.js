@@ -75,12 +75,71 @@ function persistRememberedEmail(email, shouldRemember) {
   }
 }
 
-function saveActiveUser(email) {
-  localStorage.setItem(storageKeys.activeUser, email);
+function getStoredRole() {
+  return sessionStorage.getItem("lexreasonSelectedRole") || localStorage.getItem("lexreasonSelectedRole") || "";
+}
+
+function persistSelectedRole(role, shouldRemember = true) {
+  if (!role) {
+    sessionStorage.removeItem("lexreasonSelectedRole");
+    if (!shouldRemember) {
+      localStorage.removeItem("lexreasonSelectedRole");
+    }
+    return;
+  }
+
+  sessionStorage.setItem("lexreasonSelectedRole", role);
+  if (shouldRemember) {
+    localStorage.setItem("lexreasonSelectedRole", role);
+  }
+}
+
+function buildActiveUserPayload(identifier, role = getStoredRole()) {
+  if (!identifier) {
+    return null;
+  }
+
+  return {
+    name: identifier,
+    role: role || "Independent Litigator"
+  };
+}
+
+function saveActiveUser(identifierOrPayload, role = getStoredRole()) {
+  const payload =
+    typeof identifierOrPayload === "string"
+      ? buildActiveUserPayload(identifierOrPayload, role)
+      : buildActiveUserPayload(
+          identifierOrPayload?.name || identifierOrPayload?.email || identifierOrPayload?.displayName,
+          identifierOrPayload?.role || role
+        );
+
+  if (!payload) {
+    return;
+  }
+
+  localStorage.setItem(storageKeys.activeUser, JSON.stringify(payload));
 }
 
 function getActiveUser() {
-  return localStorage.getItem(storageKeys.activeUser);
+  const storedUser = localStorage.getItem(storageKeys.activeUser);
+  if (!storedUser) {
+    return null;
+  }
+
+  try {
+    const parsedUser = JSON.parse(storedUser);
+    if (parsedUser && typeof parsedUser === "object") {
+      return {
+        name: parsedUser.name || parsedUser.email || "LexReason User",
+        role: parsedUser.role || getStoredRole() || "Independent Litigator"
+      };
+    }
+  } catch (error) {
+    return buildActiveUserPayload(storedUser, getStoredRole());
+  }
+
+  return buildActiveUserPayload(storedUser, getStoredRole());
 }
 
 async function waitForFirebaseBridge(timeoutMs = 2500) {
@@ -130,9 +189,11 @@ function clearActiveUser() {
   localStorage.removeItem(storageKeys.activeUser);
   localStorage.removeItem(storageKeys.linkedInJwt);
   localStorage.removeItem(storageKeys.facebookAccessToken);
+  localStorage.removeItem("lexreasonSelectedRole");
   sessionStorage.removeItem(storageKeys.activeUser);
   sessionStorage.removeItem(storageKeys.linkedInJwt);
   sessionStorage.removeItem(storageKeys.facebookAccessToken);
+  sessionStorage.removeItem("lexreasonSelectedRole");
 }
 
 function getSessionUserIdentifier(user) {
@@ -153,7 +214,7 @@ function captureOauthRedirectState() {
 
   const email = params.get("email");
   const name = params.get("name");
-  saveActiveUser(email || name || "LinkedIn User");
+  saveActiveUser({ name: email || name || "LinkedIn User", role: getStoredRole() });
 
   const cleanUrl = `${window.location.origin}${window.location.pathname}`;
   window.history.replaceState({}, document.title, cleanUrl);
@@ -171,7 +232,10 @@ async function hydrateUserFromSession() {
 
     const payload = await response.json();
     if (payload?.authenticated && payload.user) {
-      saveActiveUser(getSessionUserIdentifier(payload.user));
+      saveActiveUser({
+        name: getSessionUserIdentifier(payload.user),
+        role: payload.user.role || getStoredRole()
+      });
     }
   } catch (error) {
     console.error("Session lookup failed", error);
@@ -187,7 +251,10 @@ async function enforceDashboardAccess() {
 
   const firebaseUser = await getFirebaseAuthenticatedUser();
   if (firebaseUser) {
-    saveActiveUser(firebaseUser.email || firebaseUser.phoneNumber || firebaseUser.displayName || "Google User");
+    saveActiveUser({
+      name: firebaseUser.displayName || firebaseUser.email || firebaseUser.phoneNumber || "Google User",
+      role: getStoredRole()
+    });
     return true;
   }
 
@@ -207,7 +274,10 @@ async function enforceDashboardAccess() {
 
     const payload = await response.json();
     if (payload?.authenticated && payload.user) {
-      saveActiveUser(getSessionUserIdentifier(payload.user));
+      saveActiveUser({
+        name: getSessionUserIdentifier(payload.user),
+        role: payload.user.role || getStoredRole()
+      });
       return true;
     }
   } catch (error) {
@@ -225,7 +295,10 @@ async function redirectAuthenticatedLogin() {
 
   const firebaseUser = await getFirebaseAuthenticatedUser();
   if (firebaseUser) {
-    saveActiveUser(firebaseUser.email || firebaseUser.phoneNumber || firebaseUser.displayName || "Google User");
+    saveActiveUser({
+      name: firebaseUser.displayName || firebaseUser.email || firebaseUser.phoneNumber || "Google User",
+      role: getStoredRole()
+    });
     window.location.replace("dashboard.html");
     return;
   }
@@ -245,7 +318,10 @@ async function redirectAuthenticatedLogin() {
 
     const payload = await response.json();
     if (payload?.authenticated && payload.user) {
-      saveActiveUser(getSessionUserIdentifier(payload.user));
+      saveActiveUser({
+        name: getSessionUserIdentifier(payload.user),
+        role: payload.user.role || getStoredRole()
+      });
       window.location.replace("dashboard.html");
     }
   } catch (error) {
@@ -271,6 +347,7 @@ function setupLoginForm() {
 
     const email = document.getElementById("email")?.value ?? "";
     const password = document.getElementById("password")?.value ?? "";
+    const role = document.getElementById("role")?.value ?? "";
     const rememberMe = document.getElementById("rememberMe")?.checked ?? false;
 
     let hasErrors = false;
@@ -299,7 +376,8 @@ function setupLoginForm() {
     setLoadingState(loginButton, true);
     window.setTimeout(() => {
       persistRememberedEmail(email.trim(), rememberMe);
-      saveActiveUser(email.trim());
+      persistSelectedRole(role, rememberMe);
+      saveActiveUser({ name: email.trim(), role });
       window.location.href = "dashboard.html";
     }, 500);
   });

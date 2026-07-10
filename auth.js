@@ -10,6 +10,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
 const googleRedirectStorageKey = "lexreasonGoogleRedirectPending";
+const selectedRoleStorageKey = "lexreasonSelectedRole";
 
 function hasFirebaseConfig(config) {
   return Boolean(config && config.apiKey && config.authDomain && config.projectId && config.appId);
@@ -139,9 +140,29 @@ function handleLinkedInAuthResult() {
 }
 
 function saveUserAndRedirect(identifier) {
-  localStorage.setItem("lexreasonChamberUser", identifier);
+  const selectedRole =
+    sessionStorage.getItem(selectedRoleStorageKey) ||
+    localStorage.getItem(selectedRoleStorageKey) ||
+    "Independent Litigator";
+  localStorage.setItem(
+    "lexreasonChamberUser",
+    JSON.stringify({
+      name: identifier,
+      role: selectedRole
+    })
+  );
   sessionStorage.removeItem(googleRedirectStorageKey);
   window.location.href = "dashboard.html";
+}
+
+function persistSelectedRoleFromForm() {
+  const role = document.getElementById("role")?.value?.trim();
+  if (!role) {
+    return;
+  }
+
+  sessionStorage.setItem(selectedRoleStorageKey, role);
+  localStorage.setItem(selectedRoleStorageKey, role);
 }
 
 function waitForFirebaseUser(auth, timeoutMs = 1200) {
@@ -342,7 +363,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       clearGoogleRedirectPending();
       localStorage.setItem(
         "lexreasonChamberUser",
-        firebaseUser.email || firebaseUser.phoneNumber || firebaseUser.displayName || "Google User"
+        JSON.stringify({
+          name: firebaseUser.displayName || firebaseUser.email || firebaseUser.phoneNumber || "Google User",
+          role:
+            sessionStorage.getItem(selectedRoleStorageKey) ||
+            localStorage.getItem(selectedRoleStorageKey) ||
+            "Independent Litigator"
+        })
       );
     }
     return;
@@ -385,6 +412,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   googleAuthButton?.addEventListener("click", async () => {
     setMessage("formError", "");
+    persistSelectedRoleFromForm();
     setButtonLoading(googleAuthButton, true);
 
     try {
@@ -399,6 +427,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   facebookAuthButton?.addEventListener("click", () => {
     setMessage("formError", "");
+    persistSelectedRoleFromForm();
     const facebookLoginUrl = getFacebookLoginUrl();
 
     if (!facebookLoginUrl) {
@@ -410,6 +439,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   linkedinAuthButton?.addEventListener("click", async () => {
+    persistSelectedRoleFromForm();
     await beginLinkedInLogin(linkedinAuthButton);
   });
 
@@ -418,6 +448,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
+    persistSelectedRoleFromForm();
     await beginLinkedInLogin(linkedinAuthButton);
   });
 });

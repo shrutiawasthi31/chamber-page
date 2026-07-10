@@ -67,6 +67,73 @@ const chamberData = {
   ]
 };
 
+function getStoredActiveUser() {
+  const storedUser = window.localStorage.getItem("lexreasonChamberUser");
+  if (!storedUser) {
+    return null;
+  }
+
+  try {
+    const parsedUser = JSON.parse(storedUser);
+    if (parsedUser && typeof parsedUser === "object") {
+      return {
+        name: parsedUser.name || parsedUser.email || "LexReason User",
+        role: parsedUser.role || window.localStorage.getItem("lexreasonSelectedRole") || "Independent Litigator"
+      };
+    }
+  } catch (error) {
+    return {
+      name: storedUser,
+      role: window.localStorage.getItem("lexreasonSelectedRole") || "Independent Litigator"
+    };
+  }
+
+  return null;
+}
+
+function getInitials(name) {
+  const words = (name || "")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
+
+  if (!words.length) {
+    return "LR";
+  }
+
+  if (words.length === 1 && words[0].includes("@")) {
+    return words[0].slice(0, 2).toUpperCase();
+  }
+
+  return words
+    .slice(0, 2)
+    .map((word) => word.charAt(0).toUpperCase())
+    .join("");
+}
+
+function hydrateProfileCard() {
+  const activeUser = getStoredActiveUser();
+  if (!activeUser) {
+    return;
+  }
+
+  const nameNode = document.querySelector("[data-profile-name]");
+  const roleNode = document.querySelector("[data-profile-role]");
+  const avatarNode = document.querySelector("[data-profile-avatar]");
+
+  if (nameNode) {
+    nameNode.textContent = activeUser.name;
+  }
+
+  if (roleNode) {
+    roleNode.textContent = activeUser.role;
+  }
+
+  if (avatarNode) {
+    avatarNode.textContent = getInitials(activeUser.name);
+  }
+}
+
 function renderCaseItem(name, selected = false) {
   return `
     <a class="case-item${selected ? " case-item--selected" : ""}" href="#" ${selected ? 'aria-current="page"' : ""}>
@@ -273,6 +340,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   renderChamberPage();
+  hydrateProfileCard();
   setupProfileMenu();
   setupSidebarControls();
   setupCaseSearch();
