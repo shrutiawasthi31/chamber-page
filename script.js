@@ -250,6 +250,12 @@ async function hydrateUserFromSession() {
 }
 
 async function enforceDashboardAccess() {
+  const activeUser = getActiveUser();
+
+  if (activeUser) {
+    return true;
+  }
+
   const firebaseUser = await getFirebaseAuthenticatedUser();
   if (firebaseUser) {
     saveActiveUser({
@@ -290,6 +296,11 @@ async function enforceDashboardAccess() {
 }
 
 async function redirectAuthenticatedLogin() {
+  if (getActiveUser()) {
+    window.location.replace("dashboard.html");
+    return;
+  }
+
   const firebaseUser = await getFirebaseAuthenticatedUser();
   if (firebaseUser) {
     saveActiveUser({
@@ -374,8 +385,8 @@ function setupLoginForm() {
     window.setTimeout(() => {
       persistRememberedEmail(email.trim(), rememberMe);
       persistSelectedRole(role, rememberMe);
-      setError("formError", "Please use Google sign-in to enter the Chamber page.");
-      setLoadingState(loginButton, false);
+      saveActiveUser({ name: email.trim(), role });
+      window.location.href = "dashboard.html";
     }, 500);
   });
 }
