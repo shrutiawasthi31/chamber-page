@@ -6,6 +6,7 @@ import {
   onAuthStateChanged,
   signOut,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signInWithRedirect
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
@@ -246,6 +247,10 @@ function getFacebookAccessTokenFromHash() {
 }
 
 function getFriendlyAuthError(error, providerName) {
+  if (error?.code === "auth/popup-blocked") {
+    return "Your browser blocked the Google sign-in popup. Please allow popups and try again.";
+  }
+
   if (error?.code === "auth/operation-not-allowed") {
     return `${providerName} sign-in is not enabled in Firebase yet.`;
   }
@@ -422,11 +427,25 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
       await signOut(auth).catch(() => {});
-      markGoogleRedirectPending();
-      await signInWithRedirect(auth, googleProvider);
+      const result = await signInWithPopup(auth, googleProvider);
+      saveUserAndRedirect(result.user.email || result.user.phoneNumber || result.user.displayName || "Google User");
     } catch (error) {
+      if (error?.code === "auth/popup-blocked" || error?.code === "auth/popup-closed-by-user") {
+        try {
+          markGoogleRedirectPending();
+          await signInWithRedirect(auth, googleProvider);
+          return;
+        } catch (redirectError) {
+          clearGoogleRedirectPending();
+          setMessage("formError", getFriendlyAuthError(redirectError, "Google"));
+          setButtonLoading(googleAuthButton, false);
+          return;
+        }
+      }
+
       clearGoogleRedirectPending();
       setMessage("formError", getFriendlyAuthError(error, "Google"));
+      setButtonLoading(googleAuthButton, false);
     }
   });
 
