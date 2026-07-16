@@ -151,8 +151,8 @@ function saveUserAndRedirect(identifier) {
       role: selectedRole
     })
   );
-  clearGoogleRedirectPending();
-  window.location.replace("dashboard.html");
+  sessionStorage.removeItem(googleRedirectStorageKey);
+  window.location.href = "dashboard.html";
 }
 
 function persistSelectedRoleFromForm() {
@@ -205,19 +205,14 @@ function setButtonLoading(button, loading) {
 
 function markGoogleRedirectPending() {
   sessionStorage.setItem(googleRedirectStorageKey, "true");
-  localStorage.setItem(googleRedirectStorageKey, "true");
 }
 
 function clearGoogleRedirectPending() {
   sessionStorage.removeItem(googleRedirectStorageKey);
-  localStorage.removeItem(googleRedirectStorageKey);
 }
 
 function isGoogleRedirectPending() {
-  return (
-    sessionStorage.getItem(googleRedirectStorageKey) === "true" ||
-    localStorage.getItem(googleRedirectStorageKey) === "true"
-  );
+  return sessionStorage.getItem(googleRedirectStorageKey) === "true";
 }
 
 function getFacebookLoginUrl() {

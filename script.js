@@ -172,13 +172,6 @@ async function getFirebaseAuthenticatedUser() {
 }
 
 function isGoogleRedirectPending() {
-  if (
-    sessionStorage.getItem("lexreasonGoogleRedirectPending") === "true" ||
-    localStorage.getItem("lexreasonGoogleRedirectPending") === "true"
-  ) {
-    return true;
-  }
-
   const firebaseBridge = window.lexreasonFirebase;
   if (!firebaseBridge?.enabled || typeof firebaseBridge.isGoogleRedirectPending !== "function") {
     return false;
@@ -297,7 +290,6 @@ async function enforceDashboardAccess() {
 
 async function redirectAuthenticatedLogin() {
   if (getActiveUser()) {
-    window.location.replace("dashboard.html");
     return;
   }
 
